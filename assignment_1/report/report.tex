@@ -1,5 +1,7 @@
 \documentclass[english, a4paper]{article}
 
+\usepackage{float}
+
 \title{Data Mining -- Assignment 1}
 \author{Andrew Bedard -- Artagan Malsagov -- Shabaz Sultan}
 \begin{document}
@@ -8,8 +10,31 @@
 \subsection{Introduction}
 On the 14th of April, 1912 the RMS Titanic hit an iceberg and sank a few hours later. Of the 2207 people on that ship 1501 lost their lives on that night. These tragic events offer the opportunity to study exactly how people behave during such a life-and-death event.\\
 From an economic perspective one can wonder if the model of humans as `homo economicus', that of humans as rational, self-interested actors is the best way to model behaviour of people on that night. An econometric analysis shows that such a `homo economicus' model is overly simplistic because females and children were more likely to survive than physically stronger males. An analysis using said model is still valuable however because people who were closer to their prime age, were of higher social class or had access to more information were more likely to survive\cite{Frey2010}\cite{Frey2011}. \\
-The reason why the deathrate was so high starts with the fact that there were not enough lifeboats. On top of that fewer passengers survived because they of supposed reluctance to leave the ship (e.g. because of disbelief that the ship would actually sink or wives that did not want to be separated from their husbands). The difference in survival between males and females can be explained as a result of policy. The official explanation from the Mersey inquiry to explain the difference in survival rates between classes was that lower-class people were less willing to be parted from their belongings and that their English was poorer making them less able to follow orders from the crew. Statistical analysis based on nationality as a proxy for language ability refutes this second claim and suggest that explanations rejected by the inquiry (layout of the ship disadvantaging lower class people and outright discrimination when letting people on lifeboards) are more likely \cite{Hall1986}.
+The reason why the deathrate was so high starts with the fact that there were not enough lifeboats. On top of that fewer passengers survived than there was space in lifeboats because of supposed reluctance to leave the ship (e.g. because of disbelief that the ship would actually sink or wives that did not want to be separated from their husbands). The difference in survival between males and females can be explained as a result of policy. The official explanation from the Mersey inquiry to explain the difference in survival rates between classes was that lower-class people were less willing to be parted from their belongings and that their English was poorer making them less able to follow orders from the crew. Statistical analysis based on nationality as a proxy for language ability refutes this second claim and suggest that explanations rejected by the inquiry (layout of the ship disadvantaging lower class people and outright discrimination when letting people on lifeboards) are more likely \cite{Hall1986}.\\
+We can use publicly available data with personal details of Titanic passengers to build our own models to see if we are able to predict survival of a passenger based on things like sex and class.
+\subsection{Analysis of the Data}
+The data used in this section is provided through the Kaggle website, which host machine learning competitions. The Titanic dataset is intended as one that users can use to practice and get up to speed with machine learning. The data is provided as a list of 891 passengers in a training set and 418 passengers in a test set. Both sets have a number of attributes marked, mentioned in table~\ref{tab:passenger_attributes}.
+\begin{table}[H]
+\caption{Attributes proved for each passenger in the dataset.}
+\label{tab:passenger_attributes}
+\centering
+\begin{tabular}{ r | l }
+  attribute & possible values \\ \hline \hline
+  passenger class & 1,2 or 3 (1 is upper class, 3 is lower)  \\
+  name & first and last name with title \\
+  & (i.e. mr., miss. etc) and possible initials  \\
+  sex & male or female \\
+  age & number in years \\
+  siblings \& spouses & number of siblings and spouses on board \\
+  parents \& children & number of parents and children on board \\
+  ticket & ticket number \\
+  fare & ticket fare \\
+  cabin & cabin code (not available for some, multiple for some)\\
+  port of embarkation & Cherbourg, Queenstown or Southampton
 
+\end{tabular}
+\end{table}
+In addition to the attributes mentioned in table~\ref{tab:passenger_attributes} the passengers in the training set also have an attribute denoting if they survived. This allows us to use the training set as the input for a supervised learning model and use said model to create predictions for survival on the test set. The Kaggle system allows said predictions to submitted and percentage of correct predictions on the test set get displayed in a leaderboard. It should be noted that because this is a dataset available fully marked up (i.e. with survival marked for all passengers) it is trivial to cheat and get a 100\% score. As such the leaderboard is less reliable than other Kaggle competitions and is only intended for practice by Kaggle. 
 \bibliographystyle{plain}
 \bibliography{report}
 \end{document}
