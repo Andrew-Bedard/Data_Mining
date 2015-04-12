@@ -35,6 +35,8 @@ The data used in this section is provided through the Kaggle website, which host
 \end{tabular}
 \end{table}
 In addition to the attributes mentioned in table~\ref{tab:passenger_attributes} the passengers in the training set also have an attribute denoting if they survived. This allows us to use the training set as the input for a supervised learning model and use said model to create predictions for survival on the test set. The Kaggle system allows said predictions to submitted and percentage of correct predictions on the test set get displayed in a leaderboard. It should be noted that because this is a dataset available fully marked up (i.e. with survival marked for all passengers) it is trivial to cheat and get a 100\% score. As such the leaderboard is less reliable than other Kaggle competitions and is only intended for practice by Kaggle. 
+\subsubsection{Statistical Analysis}
+Based on both intuition and the literature sex and class seem like the most likely candidates for predicting the survival of a passenger. Because these are also the most straightforward attributes to analyse it makes sense to start with them when doing our first statistical exploration of the dataset. We can start by wondering what the correlation coefficient is between sex and survival. REPLACE and now start programming shit
 \bibliographystyle{plain}
 \bibliography{report}
 \end{document}
