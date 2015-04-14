@@ -6,6 +6,8 @@
 \author{Andrew Bedard -- Artagan Malsagov -- Shabaz Sultan}
 \begin{document}
 \maketitle
+\section{Own Dataset Initiative}
+
 \section{Titanic Survivors\\ \large or: How I learned to Stop Worrying and Love the Data}
 \subsection{Introduction}
 On the 14th of April, 1912 the RMS Titanic hit an iceberg and sank a few hours later. Of the 2207 people on that ship 1501 lost their lives on that night. These tragic events offer the opportunity to study exactly how people behave during such a life-and-death event.\\
@@ -41,6 +43,13 @@ Based on both intuition and the literature sex and class seem like the most like
 REPLACE in particular building up family trees
 \subsection{Machine Learning Models}
 probably decision trees and logistic regression at the very least
+
+\section{Research and Theory}
+Describing someone else's work is certainly a good way to advance further until you begin to feel your own initiatives coming. Let's try that by starting this section by describing the winning entry of a Kaggle competition.  
+\subsection{IJCNN Social Network Challenge}
+The Social Network Challenge was hosted by IJCNN and posted on the Kaggle platform in the period of Nov 2010 - Jan 2011. The challenge was to predict edges/connections between nodes/people in an online social network based on an edge dataset obtainted by crawling said network. This dataset was partioned into a training set and a test set, where the test set was expanded by an equal number of fake edges. Predicting then meant the trained algorithm had to classify the $8,960$ test edges as either true or false, after having trained on the $7,237,983$ training edges. As an evalutation measure the area under the ROC-curve was used (AUC), meaning the closer the AUC is to $1$ the better the evaluation of the algorithm. Needless to say user identities of the nodes were obfuscated by assigning random IDs to the nodes in the provided dataset, otherwise a group might cheat its way through.
+
+And the winner was a team going by the name ``IND CCA". Its members wrote their winning approach in an article \cite{6033446} to which the interested is referred.         
 \bibliographystyle{plain}
 \bibliography{report}
 \end{document}
