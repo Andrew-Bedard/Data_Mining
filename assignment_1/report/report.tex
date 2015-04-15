@@ -52,7 +52,7 @@ Next we look at class and survival. There is a positive correlation between bein
 \end{figure}
 \noindent
 Only 714 of the 891 passengers in the training set have their age marked. The average age of these 714 passengers is 29.7 years, with a standard deviation of 14.5. The distribution of ages is plotted in a histogram in figure~\ref{fig:age_histogram}.\\
-Next we can look if there is difference between the age distribution between survivors and non-survivors. Judging by the naked eye the two histograms look pretty similar and indeed the mean and standard deviation are pretty close as well. There is perhaps a slight difference in the shape of the two distributions, which is expressed as a difference in the kurtosis.\\
+Next we can look if there is a difference between the age distribution between survivors and non-survivors. Judging by the naked eye the two histograms in figure~\ref{fig:survivor_split_age_histograms} look pretty similar and indeed the mean and standard deviation are pretty close as well. There is perhaps a slight difference in the shape of the two distributions, which is expressed as a difference in the kurtosis.\\
 Based on this analysis it seems like age would not have great predictive value for survival. It might however still be true that age is more predictive after the population has been split up based on other criteria first.
 \begin{figure}[H]
     \begin{subfigure}{.5\textwidth}
@@ -66,6 +66,7 @@ Based on this analysis it seems like age would not have great predictive value f
     \caption{Age distributions of survivors and non-survivors in the training set.}
     \label{fig:survivor_split_age_histograms}
 \end{figure}
+\noindent
 Finally we look at embarkation ports. Based on intuition it seems less likely that this attribute is particularly predictive of survival. Looking at the data however, passengers who embarked from Southampton had a negative correlation with survival at $-0.16$. Passengers from Cherbourg had a positive survival correlation at $0.17$ and those from Queenstown had almost no correlation at $0.00$. One can wonder if these differences can be explained by a difference in e.g. sex and class between passengers from different ports. One way to explore this is building a decision tree with embarkation port, sex and class as attributes and see how far in the tree embarkation port ends up at, which we will try in section~\ref{subsec:titanic_machine_learning_models}.
 \subsubsection{Data Augmentation}
 REPLACE in particular building up family trees
