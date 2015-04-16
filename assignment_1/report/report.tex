@@ -95,7 +95,17 @@ and MAE measures as:
 $$
 \frac{1}{n}\sum_{i=1}^{n}|\hat{y_{i}}-y_{i}|
 $$
+A few observations: naturally the MSE will always be larger than the MAE. The two metrics are, however, not expressed in the same unit, for that the square root has to be taken of the MSE, also known as the root mean square error (RMSE): $ \sqrt{\frac{1}{n}\sum_{i=1}^{n}(\hat{y_{i}} - y_{i})^{2}}$. By (mathematical) definition, RMSE is never smaller than the MSE. When the magnitudes of all the differences are equal, RMSE=MAE. 
 
+Now, the essential difference between the two methods is the MAE assigns the same weights to all deviations when averaging over the sample, whereas the MSE weighs a deviation by that very same deviation, assigning high weights to high deviations and thus penalizing high errors. This mechanism of MSE to overweigh tail events prevents large errors but the trade-off is that is also may commit more smaller errors. An arguments is therefore made for the MAE, which commits less of these smaller errors due to equal weighing.
+
+On the other hand, if large errors are the main concern, than MSE is the tool of the trade. Also, the squared difference is much more ``well-behaved" than the absolute difference. It is continuously differentiable, which is handy for minimization. It equals the sample variance (biased) when for all $i$ the sample mean of the observations is taken as a predictor: $\frac{1}{n}\sum_{i=1}^{n}( y_{i} - \bar{y})^{2}$. Finally, it also ties in with the Euclidean distance, which makes it useful for proving limit theorems. In the end it all comes down the specifics of the situation at hand, i.e. which errors in the forecast matter most.
+
+\subsection{Examples}
+Before we try a hands-on example, let's think of a situation where both MSE and MAE are equal. Since one squares the difference, we have to use binary numbers. So suppose we are dealing with a classification problem and the vector of true values $y=[y_{1},\dots,y_{n}]^{T}$ is binary. Then the errors are either $0$ or $1$ in absolute value and likewise when squared, i.e. $(\hat{y_{i}} - y_{i})^{2}=|\hat{y_{i}}-y_{i}|$ for all $i$. Averaging over all $n$ errors gives then the same value for the MSE and MAE.
+
+ 
+  
 
           
 \bibliographystyle{plain}
