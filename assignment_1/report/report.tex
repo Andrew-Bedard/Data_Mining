@@ -4,7 +4,9 @@
 \usepackage[pdftex]{graphicx}
 \usepackage{caption}
 \usepackage{subcaption}
-
+\usepackage{siunitx}
+\usepackage{graphicx}
+\usepackage{pbox} 
 
 \title{Data Mining -- Assignment 1}
 \author{Andrew Bedard -- Artagan Malsagov -- Shabaz Sultan}
@@ -88,8 +90,22 @@ When we look at the correlation between being on lower deck and surviving, there
 REPLACE in particular building up family trees
 \subsection{Machine Learning Models}
 \label{subsec:titanic_machine_learning_models}
-probably decision trees and logistic regression at the very least\\
-maybe SVM, random forest
+
+\begin{table}[H]
+    \sisetup{round-mode=places}
+    \caption{Scores using different classifiers. Scores are found using leave-one-out cross-validation. As a reference accuracy of `always guess non-survival' is 0.61.}
+    \label{tab:titanic_model_scores}
+    \centering
+\resizebox{\linewidth}{!}{%
+    \begin{tabular}{ c || S[round-precision=3] | S[round-precision=3] | S[round-precision=3] | S[round-precision=3] | S[round-precision=3]}
+        \textbf{fields used} & \textbf{log. regression} & \textbf{SVM} & \textbf{decision tree} & \textbf{naive bayes} & \textbf{random forest} \\ \hline\hline
+class and sex & 0.786756453423 & 0.705948372615 & 0.705948372615 & 0.786756453423 & 0.768799102132 \\\hline
+class, sex and family size & 0.800224466891 & 0.806958473625 & 0.794612794613 & 0.801346801347 & 0.79797979798 \\\hline
+class, sex and known cabin & 0.786756453423 & 0.710437710438 & 0.791245791246 & 0.765432098765 & 0.776655443322 \\\hline
+        \pbox{20cm}{class, sex, family size\\ and known cabin} & 0.800224466891 & 0.810325476992 & 0.783389450056 & 0.791245791246 & 0.792368125701 \\\hline
+        \pbox{20cm}{class, sex, family size,\\ known cabin and fare} & 0.795735129068 & 0.781144781145 & 0.813692480359 & 0.766554433221 & 0.808080808081 \\\hline
+        \pbox{20cm}{class, sex, sibling/spouse,\\ parents/children, known\\cabin and fare} & 0.793490460157 & 0.766554433221 & 0.804713804714 & 0.773288439955 & 0.79797979798 \\ \end{tabular}}
+\end{table}
 \pagebreak
 \section{Research and Theory}
 Describing someone else's work is certainly a good way to advance further until you begin to feel your own initiatives coming. Let's try that by starting this section by describing the winning entry of a Kaggle competition.  
