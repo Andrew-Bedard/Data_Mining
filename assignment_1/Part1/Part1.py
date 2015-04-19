@@ -9,9 +9,10 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import pylab as pl
-import sklearn as sk
+from sklearn import linear_model, cross_validation, svm, tree, naive_bayes, ensemble
 
-data = pd.read_csv('C:/Users/Andy/Documents/School/Data_Mining/Assignment_1/ODI3.csv')
+
+data = pd.read_csv('ODI3.csv')
 col_list = list(data.columns.values)
 
 columns = ['Prog','ML','IR','Db','Sex','Chocolate','Neighb','Stress','Money','Random','Bed']
@@ -44,10 +45,18 @@ df = df[df.Neighb < 9]
 df = df[df.Money <= 100]
 
 
-fig, ax = plt.subplots()
+#fig, ax = plt.subplots()
 
-a_heights, a_bins = np.histogram(df['Sex'])
-b_heights, b_bins = np.histogram(df['ML'], bins=a_bins)
-width = (a_bins[1] - a_bins[0])/3
-ax.bar(a_bins[:-1], a_heights, width=width, facecolor='cornflowerblue')
-ax.bar(b_bins[:-1]+width, b_heights, width=width, facecolor='seagreen')
+#a_heights, a_bins = np.histogram(df['Sex'])
+#b_heights, b_bins = np.histogram(df['ML'], bins=a_bins)
+#width = (a_bins[1] - a_bins[0])/3
+#ax.bar(a_bins[:-1], a_heights, width=width, facecolor='cornflowerblue')
+#ax.bar(b_bins[:-1]+width, b_heights, width=width, facecolor='seagreen')
+
+df = df[['Sex', 'ML', 'Stress']].dropna()
+X = df[['Sex', 'Stress']]
+y = df['ML']
+classifier = naive_bayes.GaussianNB()
+scores = cross_validation.cross_val_score(classifier, X, y, cv=10)
+print "ML attendence classification using naive bayes with sex and stress level as attributes, 10 fold CV:", scores.mean()
+
