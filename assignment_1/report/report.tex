@@ -119,7 +119,7 @@ On the other hand, if large errors are the main concern, than MSE is the tool of
 Suppose we are dealing with a classification problem and the vector of true values $y=[y_{1},\dots,y_{n}]^{T}$ is binary. Then the errors are either $0$ or $1$ in absolute value and likewise when squared, i.e. $(\hat{y_{i}} - y_{i})^{2}=|\hat{y_{i}}-y_{i}|$ for all $i$. Averaging over all $n$ errors gives then the same value for the MSE and MAE.
 
 \subsubsection{Examples}
-For a real example we use a dataset from \cite{Longl}, also called the Longley dataset; it was downloaded from source \cite{WinNT}. This data set consists of highly collinear macro-economic variables. Each instance in the data set corresponds to a year in the period of 1947-1962, where GNP, GNP deflator, unemployed population, employed population, armed forces population, entire population, year were all recorded as variables.
+For a real example we use a dataset from \cite{Longl}, also called the Longley dataset; it was downloaded from source \cite{WinNT}. This data set consists of highly collinear macro-economic variables. Each instance in the data set corresponds to a year in the period of 1947-1962, where GNP, GNP deflator, unemployed population, employed population, armed forces population, entire population and year were all recorded as variables.
 
 %\begin{table}[H]
 %\caption{Variables of Longley dataset}
@@ -137,7 +137,7 @@ For a real example we use a dataset from \cite{Longl}, also called the Longley d
 %\end{tabular}
 %\end{table}
 
-Before we discussed the fact that MSE shrugs off the occurrence of smaller errors, while MAD takes them into account. This dataset shall aid us in illustrating the point. The variables are highly collinear and can thus explain each other well in a regression, providing small errors. Let's use ``Employed" as the dependent variable of our regression and regress on variable $x=$GNP. First, a general linear regression: $\displaystyle y = \beta_{0} + \beta_{1}x$. Then, a quadratic regression $\displaystyle y = \beta_{0} + \beta_{1}x +\beta_{2}x^{2}$, which captures saturation effects of GNP on Employed. The MSE and MAE of the two regressions programmed in Python are summarized below.
+Remember, before we discussed the fact that MSE shrugs off the occurrence of smaller errors, while MAE takes them into account. This dataset shall aid us in illustrating the point. The variables are highly collinear and can thus explain each other well in a regression, providing small errors. Let's use ``Employed" as the dependent variable of our regression and regress on variable $x=$GNP. First, a general linear regression: $\displaystyle y = \beta_{0} + \beta_{1}x$. Then, a quadratic regression $\displaystyle y = \beta_{0} + \beta_{1}x +\beta_{2}x^{2}$, which captures saturation effects of GNP on Employed. The MSE and MAE of the two regressions programmed in Python are summarized below.
 \begin{table}[H]
     \centering
     \begin{tabular}{l | c | c}
@@ -152,11 +152,11 @@ Before we discussed the fact that MSE shrugs off the occurrence of smaller error
 \subsection{SMS dataset: text mining Ham and Spam}
 The data in the SMS dataset consists of text messages labelled as either spam or ham. The aim is to model this data and be able to predict whether a message is spam or ham. A possible model is the bag-of-words, where the text data set is represented by a ``bag" containing its words, disregarding word-order and grammar. It is also possible to use the $n$-gram model, which allows to take into account the word-order and grammar, with for instance a bi-gram being two consecutive words. The bag then contains every sequence of two consecutive words present in the text. 
 
-First, the data has to be tokenized, that is, broken up into words and other meaningful symbols. The words can then be stemmed, which makes things easier by grouping words according their root. Finally, stopwords can be dropped, which are common words of little value. This yields a concise bag of words on which an algorithm can be trained.
+First, the data has to be tokenized, that is, broken up into words and other meaningful symbols. The words can then be stemmed, which makes things easier by grouping words according to their root. Finally, stopwords can be dropped, which are common words of little value. This yields a concise bag of words on which an algorithm can be trained.
 
 Let's use Naive Bayes as our classifier and let's disregard for now the frequency of a word within a message, meaning that a word is either present or not in a message and the probabilities are calculated accordingly. The result of applying this model with 10-fold cross validation is an average score of $0.87$, so on average $87\%$ is predicted correctly. Allowing for words to have different frequencies does not improve the score. This might have worked better if the dataset were larger.
 
-Much more can be done of course. Instead of Naive Bayes other more complex classifiers can be used, such as decision trees for instance or k-nearest neighbours, which take word-dependencies into account by recalculating the information gain and by considering majority pattern among neighbours, respectively. Also, instead of a bag of single words, a bag of bi-grams can be used, to which again different classifiers can be applied.    
+Much more can be done of course. Instead of Naive Bayes other more complex classifiers can be used, for instance decision trees or k-nearest neighbours, which take word-dependencies into account by recalculating the information gain and by considering majority pattern among neighbours, respectively. Also, instead of a bag of single words, a bag of bi-grams can be used, to which again different classifiers can be applied.    
 
                         
 \bibliographystyle{plain}
