@@ -111,33 +111,26 @@ class, sex and known cabin & 0.786756453423 & 0.710437710438 & 0.791245791246 & 
 \end{table}
 \pagebreak
 \section{Research and Theory}
-Describing someone else's work is certainly a good way to advance further until you begin to feel your own initiatives coming. Let's try that by starting this section by describing the winning entry of a Kaggle competition.  
+%Describing someone else's work is certainly a good way to advance further until you begin to feel your own initiatives coming. Let's try that by starting this section by describing the winning entry of a Kaggle competition.  
 \subsection{IJCNN Social Network Challenge}
-The Social Network Challenge was hosted by IJCNN and posted on the Kaggle platform in the period of Nov 2010 - Jan 2011. The challenge was to predict edges/connections between nodes/people in an online social network based on an edge dataset obtainted by crawling said network. This dataset was partioned into a training set and a test set, where the test set was expanded by an equal number of fake edges. Predicting then meant the trained algorithm had to classify the $8,960$ test edges as either true or false, after having trained on the $7,237,983$ training edges. As an evalutation measure the area under the ROC-curve was used (AUC), meaning the closer the AUC is to $1$ the better the evaluation of the algorithm. Needless to say user identities of the nodes were obfuscated by assigning random IDs to the nodes in the provided dataset, otherwise a group might cheat its way through.
+The Social Network Challenge was hosted by IJCNN and posted on the Kaggle platform in the period of Nov 2010 - Jan 2011. The challenge was to predict edges/connections between nodes/people in an online social network based on an edge dataset obtainted by crawling said network. This dataset was partioned into a training set and a test set, where the test set was expanded by an equal number of fake edges. Predicting then meant the trained algorithm had to classify the $8,960$ test edges as either true or false, after having trained on the $7,237,983$ training edges. As an evalutation measure the area under the ROC-curve was used (AUC). Needless to say user identities of the nodes were obfuscated by assigning random IDs to the nodes.
 
 And the winner was a team going by the name ``IND CCA". Its members wrote their winning approach in an article \cite{6033446} to which the interested reader is referred. The details of their approach are quite intricate, so here's the gist of it. While de-anonymization was forbidden, that is exactly what the winning team did. After finding out the data had been obtained by crawling Flickr, the group decided to crawl Flickr themselves and in so doing managed to de-anonymize $64.7 \%$ of the test edge-set. On the remainder of the test set they used a Random Forest Classifier, training this algorithm on standard link prediction features of both the training and the de-anonymized test set, thus achieving a whopping and winning AUC of $0.981$.
 
 It was this piece of bravado to de-anonymize the test set that made the method stand out. It wasn't blatant cheating, since once the group got a lead in the competition, they contacted the organizers and explained their method, offering to resign all together from the competition. Their method was approved though, and they went on to win the competition. The aim of the slight cheat in their method was of a different kind though, for they wished to raise awareness of the lasting possibility of de-anonymization in machine learning contests and hoped this would provide food for thought on how contest should be run in the future.
 
 \subsection{MSE vs. MAE}
-The subject of this part is the use of the two metrics MSE and MAE. A definition of both would be in order: suppose that $\hat{y}$ is a vector of $n$ predicted values and $y$ is the same vector of true values. MSE is measured as:
-$$
-\frac{1}{n}\sum_{i=1}^{n}(\hat{y_{i}} - y_{i})^{2}
-$$  
-and MAE measures as:
-$$
-\frac{1}{n}\sum_{i=1}^{n}|\hat{y_{i}}-y_{i}|
-$$
+The subject of this part is the use of the two metrics MSE and MAE. A definition of both would be in order: suppose that $\hat{y}$ is a vector of $n$ predicted values and $y$ is the same vector of true values. MSE is measured as: $\frac{1}{n}\sum_{i=1}^{n}(\hat{y_{i}} - y_{i})^{2}$  
+and MAE measures as:$\frac{1}{n}\sum_{i=1}^{n}|\hat{y_{i}}-y_{i}|$
 %The two metrics are not expressed in the same unit, for that the square root has to be taken of the MSE, also known as the root mean square error (RMSE): $ \sqrt{\frac{1}{n}\sum_{i=1}^{n}(\hat{y_{i}} - y_{i})^{2}}$. By (mathematical) definition, RMSE is never smaller than the MSE. When the magnitudes of all the differences are equal, RMSE=MAE. 
+The essential difference between the two methods is the MAE assigns the same weights to all deviations when averaging over the sample, whereas the MSE weighs a deviation by that very same deviation, assigning high weights to high deviations and thus penalizing high errors. This mechanism of MSE to overweigh tail events prevents large errors but the trade-off is that it also may commit more smaller errors. MAE commits less of these smaller errors due to equal weighing.
 
-\noindent The essential difference between the two methods is the MAE assigns the same weights to all deviations when averaging over the sample, whereas the MSE weighs a deviation by that very same deviation, assigning high weights to high deviations and thus penalizing high errors. This mechanism of MSE to overweigh tail events prevents large errors but the trade-off is that it also may commit more smaller errors. Imagine the errors are smaller than $1$ in absolute values, in that case MSE will be smaller than MAE. It commits less of these smaller errors due to equal weighing.
-
-On the other hand, if large errors are the main concern, than MSE is the tool of the trade. Also, the squared difference is much more ``well-behaved" than the absolute difference. It is continuously differentiable, which is handy for minimization. It equals the sample variance (biased) when for all $i$ the sample mean of the $y_{i}$s is taken as a predictor. Finally, it also ties in with the Euclidean distance, which makes it useful for proving limit theorems.
+On the other hand, if large errors are the main concern, than MSE is the tool of the trade. Also, the squared difference is continuously differentiable, which is handy for minimization. It equals the sample variance (biased) when the sample mean of the $y_{i}$s is taken as a predictor. Finally, it also ties in with the Euclidean distance, which makes it useful for proving limit theorems.
 
 Suppose we are dealing with a classification problem and the vector of true values $y=[y_{1},\dots,y_{n}]^{T}$ is binary. Then the errors are either $0$ or $1$ in absolute value and likewise when squared, i.e. $(\hat{y_{i}} - y_{i})^{2}=|\hat{y_{i}}-y_{i}|$ for all $i$. Averaging over all $n$ errors gives then the same value for the MSE and MAE.
 
 \subsubsection{Examples}
-Let's try doing a real example; for that we use a dataset from \cite{Longl}, also called the Longley dataset; it was downloaded from source \cite{WinNT}. This data set consists of highly collinear macro-economic variables. Each instance in the data set corresponds to a year in the period of 1947-1962, where GNP, GNP deflator, unemployed population, employed population, armed forces population, entire population, year were all recorded as variables.
+For a real example we use a dataset from \cite{Longl}, also called the Longley dataset; it was downloaded from source \cite{WinNT}. This data set consists of highly collinear macro-economic variables. Each instance in the data set corresponds to a year in the period of 1947-1962, where GNP, GNP deflator, unemployed population, employed population, armed forces population, entire population, year were all recorded as variables.
 
 %\begin{table}[H]
 %\caption{Variables of Longley dataset}
@@ -155,8 +148,7 @@ Let's try doing a real example; for that we use a dataset from \cite{Longl}, als
 %\end{tabular}
 %\end{table}
 
-Before we discussed the fact that MSE shrugs off the occurrence of smaller errors, while MAD takes them into account. This dataset shall aid us in illustrating the point. The variables are highly collinear and can thus explain each other well in a regression, providing small errors. Let's use ``Employed" as the dependent variable of our regression, and start out modestly by regressing it on one explanatory variable ``GNP" and a constant. So a very general linear regression: $\displaystyle y = \beta_{0} + \beta_{1}x$ where $x$ obviously stands for GNP. Indeed, one would expect the national product and employment to be related, in a positive way. But there might also be a saturation, so the positive effect of GNP on employment might reach a limit. This can be captured by adding a quadratic term to the regression for GNP: $\displaystyle y = \beta_{0} + \beta_{1}x +\beta_{2}x^{2}$. The MSE and MAE of the two regressions programmed in Python are summarized below.
-
+Before we discussed the fact that MSE shrugs off the occurrence of smaller errors, while MAD takes them into account. This dataset shall aid us in illustrating the point. The variables are highly collinear and can thus explain each other well in a regression, providing small errors. Let's use ``Employed" as the dependent variable of our regression and regress on variable $x=$GNP. First, a general linear regression: $\displaystyle y = \beta_{0} + \beta_{1}x$. Then, a quadratic regression $\displaystyle y = \beta_{0} + \beta_{1}x +\beta_{2}x^{2}$, which captures saturation effects of GNP on Employed. The MSE and MAE of the two regressions programmed in Python are summarized below.
 \begin{table}[H]
     \centering
     \begin{tabular}{l | c | c}
@@ -164,13 +156,20 @@ Before we discussed the fact that MSE shrugs off the occurrence of smaller error
         simple regression & 0.37& 0.51 \\
         quadratic regression & 0.35 & 0.49
     \end{tabular}
-    \caption{MSE and MAE of the simple linear and quadratic regression}
     \label{table:MSE_vs_MAE}
 \end{table}
 \noindent Note the MSE is smaller than the MAE in both cases. The potential danger here is that the model seems better under the MSE than under the MAE. If small errors aren't of concern in the case at hand, something you could argue for predicting employment, then both metrics seem reliable. However, situations requiring preciser prediction can be imagined, and the difference does matter. In the end it all depends on the given context, but being aware of these issues between the two metrics is crucial.
 
 \subsection{SMS dataset: text mining Ham and Spam}
-The data in the SMS dataset consists of text messages labelled as either spam or ham. The aim is to model this data and be able to predict whether a message is spam or ham. A way to model this is with the            
+The data in the SMS dataset consists of text messages labelled as either spam or ham. The aim is to model this data and be able to predict whether a message is spam or ham. A possible model is the bag-of-words, where the text data set is represented by a ``bag" containing its words, disregarding word-order and grammar. It is also possible to use the $n$-gram model, which allows to take into account the word-order and grammar, with for instance a bi-gram being two consecutive words. The bag then contains every sequence of two consecutive words present in the text. 
+
+First, the data has to be tokenized, that is, broken up into words and other meaningful symbols. The words can then be stemmed, which makes things easier by grouping words according their root. Finally, stopwords can be dropped, which are common words of little value. This yields a concise bag of words on which an algorithm can be trained.
+
+Let's use Naive Bayes as our classifier and let's disregard for now the frequency of a word within a message, meaning that a word is either present or not in a message and the probabilities are calculated accordingly. The result of applying this model with 10-fold cross validation is an average score of $0.87$, so on average $87\%$ is predicted correctly. Allowing for words to have different frequencies does not improve the score. This might have worked better if the dataset were larger.
+
+Much more can be done of course. Instead of Naive Bayes other more complex classifiers can be used, such as decision trees for instance or k-nearest neighbours, which take word-dependencies into account by recalculating the information gain and by considering majority pattern among neighbours, respectively. Also, instead of a bag of single words, a bag of bi-grams can be used, to which again different classifiers can be applied.    
+
+                        
 \bibliographystyle{plain}
 \bibliography{report}
 \end{document}
