@@ -4,7 +4,7 @@
 
 \usepackage{float}
 \usepackage[pdftex]{graphicx}
-\usepackage{caption}
+\usepackage[font={small,it}]{caption}
 \usepackage[caption=false]{subfig}
 \usepackage{url}
 \usepackage{siunitx}
@@ -26,7 +26,7 @@
 %The reason why the deathrate was so high starts with the fact that there were not enough lifeboats. On top of that fewer passengers survived than there was space in lifeboats because of supposed reluctance to leave the ship (e.g. because of disbelief that the ship would actually sink or wives that did not want to be separated from their husbands). The difference in survival between males and females can be explained as a result of policy. The official explanation from the Mersey inquiry to explain the difference in survival rates between classes was that lower-class people were less willing to be parted from their belongings and that their English was poorer making them less able to follow orders from the crew. Statistical analysis based on nationality as a proxy for language ability refutes this second claim and suggest that explanations rejected by the inquiry (layout of the ship disadvantaging lower class people and outright discrimination when letting people on lifeboards) are more likely \cite{Hall1986}.\\
 %We can use publicly available data with personal details of Titanic passengers to build our own models to see if we are able to predict survival of a passenger based on things like sex and class.
 \subsection{Analysis of the Data}
-The data used in this section is provided through the Kaggle website, which host machine learning competitions. The Titanic dataset is intended as one that users can use to practice and get up to speed with machine learning. The data is provided as a list of 891 passengers in a training set and 418 passengers in a test set. Both sets have a number of attributes marked, mentioned in table~\ref{tab:passenger_attributes}.
+The data used in this section is provided through the Kaggle website, which host machine learning competitions. The data is provided as a list of 891 passengers in a training set and 418 passengers in a test set. Both sets have a number of attributes marked, mentioned in table~\ref{tab:passenger_attributes}.
 \begin{table}[H]
 \caption{Attributes proved for each passenger in the dataset.}
 \label{tab:passenger_attributes}
@@ -34,8 +34,7 @@ The data used in this section is provided through the Kaggle website, which host
 \begin{tabular}{ r | l }
   attribute & possible values \\ \hline \hline
   passenger class & 1,2 or 3 (1 is upper class, 3 is lower)  \\
-  name & first and last name with title \\
-  & (i.e. mr., miss. etc) and possible initials  \\
+  name & first and last name with title (i.e. mr., miss. etc) and possible initials  \\
   sex & male or female \\
   age & number in years \\
   siblings \& spouses & number of siblings and spouses on board \\
@@ -44,12 +43,11 @@ The data used in this section is provided through the Kaggle website, which host
   fare & ticket fare \\
   cabin & cabin code (not available for some, multiple for some)\\
   port of embarkation & Cherbourg, Queenstown or Southampton
-
 \end{tabular}
 \end{table}
 In addition to the attributes mentioned in table~\ref{tab:passenger_attributes} the passengers in the training set also have an attribute denoting if they survived.  We can start by gathering some basic statistics on the training set. In the trainingset $38.4\%$ survived. There are 216 first class passengers, 184 second class passengers and 491 third class passengers in the set. The passengers are $64.8\%$ male and $35.2\%$ female.\\
 The correlation coefficient between sex and survival is $0.54$, meaning there is a positive correlation between being female and surviving. Next we look at class and survival. There is a positive correlation between being a first class passenger and surviving, with a correlation coefficient of $0.29$. The correlation for second class passengers and survival is $0.09$ and the correlation for third class passengers is $-0.32$.\\
-Fare is an alternative marker for socio-economic status. It is correlated with survival at $0.257$. One can wonder how much information the fare attribute adds on top of class. For first class passengers fare further differentiates passengers: there is a correlation with survival of $0.19$. Among second class passengers fare this is $0.10$, for third class passengers this is $0.00$.
+Fare is an alternative marker for socio-economic status. It is correlated with survival at $0.257$. One can wonder how much information the fare attribute adds on top of class. For first class passengers fare further differentiates passengers: there is a correlation with survival of $0.19$. Among second class passengers fare this is $0.10$, for third class passengers this is $0.00$.\\
 \begin{figure}[]
     \centering
    \subfloat[Age distribution of dataset. Mean $29.7$, std.dev. $14.5$, kurtosis $0.18$.]{%
@@ -67,19 +65,18 @@ Fare is an alternative marker for socio-economic status. It is correlated with s
     \label{fig:age_histogram}.
 \end{figure}
 \noindent
-Only 714 of the 891 passengers in the training set have their age marked. The average age of these 714 passengers is 29.7 years. The distribution of ages is plotted in a histogram in figure~\ref{fig:age_histogram}. Next we look the age distribution between survivors and non-survivors. Judging by the naked eye the two right histograms in figure~\ref{fig:age_histogram} look pretty similar. There is a slight difference in the shape of the two distributions, expressed in the kurtosis.  It seems like age would not have great predictive value for survival, but might be more predictive after the population has been split up based on other criteria first.
+Only 714 of the 891 passengers in the training set have their age marked. The average age of these 714 passengers is 29.7 years. The distribution of ages is plotted in a histogram in figure~\ref{fig:age_histogram}. Next we look the age distribution between survivors and non-survivors. The two right histograms in figure~\ref{fig:age_histogram} look pretty similar. There is a slight difference in the shape of the two distributions, expressed in the kurtosis.  It seems like age would not have great predictive value for survival, but might be more predictive after the population has been split up based on other criteria first.\\
 %Finally we look at embarkation ports. Based on intuition it seems less likely that this attribute is particularly predictive of survival. Looking at the data however, passengers who embarked from Southampton had a negative correlation with survival at $-0.16$. Passengers from Cherbourg had a positive survival correlation at $0.17$ and those from Queenstown had almost no correlation at $0.00$. One can wonder if these differences can be explained by a difference in e.g. sex and class between passengers from different ports. One way to explore this is building a decision tree with embarkation port, sex and class as attributes and see how far in the tree embarkation port ends up at, which we will try in section~\ref{subsec:titanic_machine_learning_models}.
-Using cabin number poses some complication of the attributes handles so far. The dataset is fairly incomplete, only 204 passengers in the training set have a known cabin number. And of those, some of them had multiple cabin numbers, when it was not known exactly which cabin they. Also, the cabin number is a string with a letter and number that needs some pre-processing. If we just look at the correlation of having a known cabin in the dataset and survival the correlation is $0.32$.  The data may be skewed by the fact that a partial list was recovered for the first class cabin allocations\cite{cavelist}, meaning the correlation seen may just be based on class. If we exclude first class passengers we see a smaller correlation of $0.17$ and within the first class group it is $0.15$.\\
-The other thing we can do is use the cabin number to figure out a rough position within the ship. The cabin number consist of a letter and a number. The letter denotes the deck. The number denotes the position on the deck. The decks are labeled A to F, with A being closest to the top and F as the bottom deck. There is one passenger with a boat deck cabin, marked with T. One way to use the number is to classify cabins into port and starboard. A lot of tutorials for this dataset report that odd numbered cabins were port side and even numbered cabins were starboard. This is not quite true for every deck (in particular not deck E). With some time exact positions could be constructed from deck layout images to be used, but we will consider this outside of the scope of this report. Instead we'll use the odd/even assignment to port and starboard.\\
-If we mark odd as 1 and even as 0 and find the correlation with survival of find a correlation of 0.17 between survival and having a cabin on the port side. If we remove deck E, where we know the even/odd mapping to port and starboard doesn't hold, the correlation becomes a bit stronger at 0.21.
+Using cabin number poses some complication of the attributes handles so far. Only 204 passengers in the training set have a known cabin number. Of those, some have multiple cabin numbers, when it was not known exactly which cabin they occupied. Also, the cabin number is a string with a letter and number that needs some pre-processing. If we look at the correlation of having a known cabin in the dataset and survival the correlation is $0.32$.  The data may be skewed by the fact that a partial list was recovered for the first class cabin allocations\cite{cavelist}. If we exclude first class passengers we see a smaller correlation of $0.17$ and within the first class group it is $0.15$.\\
+The cabin number can be used to figure out a position within the ship. The cabin number consist of a letter denoting deck and a number denoting position on said deck. The decks are labeled A to F, with A being closest to the top and F as the bottom deck (and one boat deck cabin on deck T). A simple way to use the number is to classify cabins in port and starboard, where odd numbered cabins are port and even are starboard.  This is not quite true for every deck (in particular not deck E). With some time exact positions could be constructed from deck layout images, but we this is outside of the scope of this report. If we mark odd as 1 and even as 0 and find a correlation of 0.17 with survival and having a cabin on the port side. Remove deck E cabins, the correlation becomes a bit stronger at 0.21.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.4\linewidth]{survival_per_deck}
+    \includegraphics[width=\linewidth, height=80px]{survival_per_deck}
     \caption{Percentage of survival among passengers on different decks. It should be noted that this is for passengers for whom cabin numbers where known; this is a subset that is more likely to have survived anyway.}
     \label{fig:survival_per_deck}
 \end{figure}
 \noindent
-When we look at the correlation between being on lower deck and surviving, there is small positive correlation of 0.05. This is somewhat surprising because higher class passengers where at higher decks and presumably one has to travel more distance when escaping from a lower deck. However, this dataset is based on the group of passengers where the cabin number was known, which is a biased group anyway that was correlated with higher survival. To gain further insight in the relation between deck and survival, the survival percentage per deck is plotted in figure~\ref{fig:survival_per_deck}.
+When we look at the correlation between being on lower deck and surviving, there is small positive correlation of 0.05. This is somewhat surprising. However, this dataset is based on the group of passengers where the cabin number was known, which is a biased group anyway that was correlated with higher survival. To gain further insight in the relation between deck and survival, the survival percentage per deck is plotted in figure~\ref{fig:survival_per_deck}.
 
 \subsection{Machine Learning Models}
 \label{subsec:titanic_machine_learning_models}
@@ -102,7 +99,7 @@ class, sex and known cabin & 0.786756453423 & 0.710437710438 & 0.791245791246 & 
         \pbox{20cm}{class, sex, family size,\\ known cabin, fare,\\ age and ship side} & 0.802469135802 & 0.707070707071 & 0.791245791246 & 0.76430976431 & 0.818181818182 \\
 \end{tabular}}
 \end{table}
-When looking at figure~\ref{tab:titanic_model_scores} we can notice a couple of thing. One is that it seems like combining sibling/spouse and child/parent in to one family size attributes can improve score. Second is that adding more attributes doesn't always improve score. The decision tree score for class, sex, family size, known cabin and fare seems high at 0.814 classification accuracy. A kaggle submission based on this model got a score of $0.76$. The random forsest model with class, sex, family size, known cabin, fare, age and ship side as attributes also has a high score at 0.818. A submission to Kaggle with this model gives $0.74$.
+When looking at figure~\ref{tab:titanic_model_scores} we can notice a couple of thing. Combining sibling/spouse and child/parent in to one family size attributes can improve score. Second is that adding more attributes doesn't always improve score. The decision tree score for class, sex, family size, known cabin and fare seems high at 0.814 classification accuracy. A kaggle submission based on this model got a score of $0.76$. The random forsest model with class, sex, family size, known cabin, fare, age and ship side as attributes also has a high score at 0.818. A submission to Kaggle with this model gives $0.74$.
 \pagebreak
 \section{Research and Theory}
 Describing someone else's work is certainly a good way to advance further until you begin to feel your own initiatives coming. Let's try that by starting this section by describing the winning entry of a Kaggle competition.  
