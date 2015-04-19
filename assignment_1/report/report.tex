@@ -155,8 +155,7 @@ The data in the SMS dataset consists of text messages labelled as either spam or
 First, the data has to be tokenized, that is, broken up into words and other meaningful symbols. The words can then be stemmed, which makes things easier by grouping words according to their root. Finally, stopwords can be dropped, which are common words of little value. This yields a concise bag of words on which an algorithm can be trained.
 
 Let's use Naive Bayes as our classifier and let's disregard for now the frequency of a word within a message, meaning that a word is either present or not in a message and the probabilities are calculated accordingly. The result of applying this model with 10-fold cross validation is an average score of $0.87$, so on average $87\%$ is predicted correctly. Allowing for words to have different frequencies does not improve the score. This might have worked better if the dataset were larger.
-
-Much more can be done of course. Instead of Naive Bayes other more complex classifiers can be used, for instance decision trees or k-nearest neighbours, which take word-dependencies into account by recalculating the information gain and by considering majority pattern among neighbours, respectively. Also, instead of a bag of single words, a bag of bi-grams can be used, to which again different classifiers can be applied.    
+re can be done of course. Instead of Naive Bayes other more complex classifiers can be used, such as decision trees for instance or k-nearest neighbours, which take word-dependencies into account by recalculating the information gain and by considering majority patterns among neighbours, respectively. Also, instead of a bag of single words, bigram or trigram models can be used, which would pick up on more of the grammatical structure in the messages.
 
                         
 \bibliographystyle{plain}

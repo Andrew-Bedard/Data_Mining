@@ -1,0 +1,105 @@
+1 - Programme,2.1 - ML,2.2 - IR,2.3 - St,2.4 - Db,3 - Gender,4 - Chocolate,5 - Birthday,6 - Neighbours,7 - Stand-up,8 - Stress, 9 - Money ,10 - Random,11 - Bedtime,12 - Good Day 1,13 - Good day 2
+bioinformatics,y,0,?,j,m,fat,02-Apr,7,N,20,50,9,2:00,sunny,money
+bioinformatics,y,0,?,n,m,neither,27-Jul,7,N,25,0.1,3,0:00,weather,stress
+econometrics,n,0,?,n,m,fat,21-Oct,100,N,10,1,8,23:30,good weather,beer
+econometrics,n,0,?,n,m,fat,16-Mar,1,N,1,0.7,10,23:30,sunshine,no lectures
+econometrics,n,0,?,n,m,fat,15-May,6,N,5,5,3,2:30,degree of hapiness,where I went to the gym
+cs,n,1,?,j,m,fat,27-Nov,2,N,5,20,4,2:30,humor,
+cs,n,1,?,j,m,neither,27-Sep,4,N,40,0.5,9,,,
+econometrics,y,0,?,n,m,neither,21-Jul,1,N,20,1,7,2:00,making jokes,drinking orange juice
+econometrics,n,0,?,n,m,I have no idea,25-06-1991,7,N,10,30,6,23:30,bier,muziek
+econometrics,n,0,?,n,f,fat,07-02-1992,1,N,50,3,7,23:30,no class,nice activity
+ba,n,0,?,n,m,neither,20-Jan,4,N,5,1,1,2:30,sun,beatiful girl sleeping beside me
+econometrics,n,0,?,n,m,neither,23 /10/89,2,N,20,0.8,10,0:00,good food,good sleep
+econometrics,n,0,?,n,m,neither,09-12-1991,3,N,34,3,4,23:15,smile,good food
+exchange,n,0,?,j,m,I have no idea,09-Feb,342,N,39.087,3,1,,,
+criminologie,y,0,?,j,f,fat,04-09-79,1,N,56,5,7,0:30,sun,food
+ba,y,0,?,j,f,fat,10-09-1982,1,N,75,0.5,10,2:00,sportattribute,book (no study)
+ba,y,0,?,j,m,happy,26/08/1993,1,N,55.38,0.625,1,0:06,good night of sleep,chocolate
+econometrics,n,0,?,n,m,neither,20/05/1992,8,N,30,<50%,8,3:30,sex,good grade
+econometrics,n,0,?,n,m,fat,5-11-1990,8,N,35,54,9,2:00,gym,good food
+ba,y,0,?,j,m,neither,15-Jul,44,N,60,0,10,,time of waiting up,
+ba,y,0,?,j,m,neither,23-11-1992,5,N,77,60,9,,train availability,enthousiasm
+ai,y,0,?,j,m,neither,19-07-1993,6,N,20,0.7,4,0:20,food,sex
+cs,n,0,?,j,f,neither,21-Jul,6,N,90,1,7,23:00,sun,holiday
+ba,n,0,?,n,f,neither,01-03-1991,4,N,60,1,3,22:30,coffee,vacation
+ba,y,0,?,j,m,neither,11-08-1991,6,N,6.9,1,3,5:59,sunny weather,good music in the car
+ba,n,0,?,n,f,fat,14-02-85,3,N,50,30,8,1:38,late wake up,fitness
+ai,y,0,?,j,m,I have no idea,11-11-1992,1,N,52,0.05,7,,good food,sleep
+ai,y,0,?,j,m,fat,06-06-1991,4,N,10,8.57,5,,sunshine,no school
+ai,y,0,?,j,m,fat,22-11-1991,6,N,65,2,7,,exercise,sunny
+ai,y,1,?,j,m,slim,09-06-1992,6,N,85,1,4,22:45,sunny,chocolate
+bioinformatics,y,0,?,n,m,fat,17-9-91,0,N,4,1,9,,food,sleep
+ai,y,1,?,j,m,neither,02/06/1986,5,N,20,1,9,2:00,lots of smiling,exercise
+bioinformatics,n,0,?,n,f,neither,26-06-1986,3,N,70,1,9,2:30,amount of time I spend outside,people I meet
+graduate school,n,0,?,j,f,neither,22-06-1983,5,N,70,2,5,,coffee,sun
+computational science,n,0,?,n,m,neither,1991.10.03,8,N,5,3,7,0:30,sleeping,no homework
+cls,y,0,?,j,m,neither,06-03-1991,4,N,50,0.55,3,1:00,sleep,people I meet
+cls,n,0,?,n,f,neither,20-06-1992,9,N,40,5,4,0:35,singing biking,laugh
+bioinformatics,y,0,?,n,m,neither,,4,N,50,2,5,0:00,weather,rest
+ai,y,0,?,j,m,neither,21-07-1990,4,N,40,1,8,1:00,nice things,chicken mcnuggets
+bioinformatics,y,0,?,n,m,slim,20-Mar,7,N,40,300,9,1:00,the study task ,food variety
+ba,y,0,?,j,m,fat,18-Sep,6,N,34,7,7,,sun,making someone smile
+econometrics,n,0,?,j,m,fat,03-03-1993,2,N,25,2,8,2:30,winning money,
+econometrics,n,0,?,n,m,neither,12-02-1990,2,N,20,2,2,1:30,sunshine,freetime
+econometrics,y,0,?,n,f,fat,10-07-1990,1,N,50,15,8,2:00,sleeping enough the night before,sun
+ai,n,0,?,j,m,neither,3-8-1990,1,N,99,50,4,1:00,good weather,no exam
+econometrics,n,0,?,n,m,I have no idea,15-04-1991,5,N,88,0.6,4,0:55,good night of sleep,prospect of meeting friend (for coffee of beer later)
+econometrics,n,0,?,n,m,fat,20-08-1992,1,N,50,1,7,2:00,enough sleep,no hangover
+ba,y,0,?,j,m,fat,27-01-1993,1,N,15,1,8,4:40,sunny,amount of sleep
+ai,y,1,?,j,m,slim,09-Feb,8,N,40,150,9,1:00,sleep time,breakfast
+information studies,n,0,?,n,m,neither,27-09-1989,0,N,20,5,9,1:00,sleep in,coffee
+econometrics,n,0,?,n,m,fat,24-Dec,3,N,60,20,7,23:30,food,
+ba,y,0,?,j,m,fat,9-6-1992,3,N,69,0.69,9,4:30,,
+ba,y,0,?,j,m,neither,16-03-1990,3,N,95,95,9,4:30,NaN,NaN
+ba,y,0,?,j,m,neither,18-05-1989,7,N,75,0.9,1,5:00,well slept,sunny out
+ba,y,0,?,j,m,neither,21-02-1992,2,N,50,1000,4,0:00,,
+bioinformatics,y,0,?,n,m,slim,6/5/1985,2,N,30,3,9,2:05,weather,wake up hour
+ba,n,1,?,j,m,neither,29-09-1991,1,N,65,1,5,1:30,beer,food
+ba,n,1,?,n,f,fat,18-9-1991,2,N,10,10,8,23:00,sun,freetime
+bioinformatics,n,0,?,n,f,neither,12-Oct,4,N,0,90,2,2:10,well slept,good breeakfast
+exchange,y,0,?,j,m,slim,19/1/1984,3,N,80,0.5,7,1:00,weather,food
+exchange,y,0,?,j,m,slim,14-Jul,4,N,20,42,7,2:00,weather,food
+ba,n,0,?,j,m,neither,6-2-1988,6,N,10,1,7,23:45,enough sleep,nice people around
+econometrics,n,0,?,n,m,slim,29-May,6,N,62.8,0.7,3.28,0:40,being able to sleep in,fridge being well filled
+ba,y,0,?,j,f,fat,24-Jan,4,N,30,1,4,0:15,food,sunny day
+bioinformatics,y,0,?,n,f,neither,1-9-1992,5,N,70,1,3,2:00,weather,day of the week
+bioinformatics,n,0,?,n,m,fat,16-10-1990,5,N,5,0.62,3,0:30,sleep (hours),stress-level
+cs,y,1,?,j,m,neither,12-04-1990,4,N,12,1,7,,nice weather,well rested
+marketing,n,0,?,n,m,fat,09-Jun,15,N,70,10,6,2:00,hard work,sun
+bioinformatics,n,0,?,n,m,neither,07-10-1991,2,N,40,5,9,23:00,good sleep,less than 3 deadlines
+ba,n,0,?,n,f,fat,05-10-1990,2,N,90,1,5,0:00,wine,sun
+finance,n,0,?,n,m,fat,16-Feb,5,N,75,1,3,0:30,wine tasting planned,sun good weather
+ba,n,1,?,j,f,happy,24-07-1991,1,N,70,5,7,0:30,sun,food
+ba,n,0,?,j,f,neither,17-Sep,3,N,50,100,1,1:45,stress level,sun
+cs,n,0,?,j,m,neither,26-11-1989,3,N,0,1,5,23:55,good breakfast,beers with friends
+ai,n,0,?,j,m,neither,13.09.1991,5,N,60,0.6,7,4:00,not having these questions,sun
+bi,y,0,?,n,m,neither,19-07-1987,4,N,60,0,3,2:00,time of getting up,ration relaxing time / working time
+econometrics,n,0,?,n,m,slim,17-Oct,0,N,0,,2,23:30,productivity,mood
+bioinformatics,y,0,?,n,m,slim,21-09-1990,5,N,42,3,9,0:37,well rested,coffee
+ba,y,0,?,n,m,fat,09-Apr,1,N,90,0,3,23:30,no homework,terrace
+exchange,n,0,?,n,m,neither,18-07-1992,4,N,7,16,1.5,2:10,sun shining,party in the evening
+ai,y,0,?,n,m,neither,20-01-1989,2,N,65,3.5,7,3:30,no work,good movie
+ba,n,0,?,n,m,neither,,5,N,0,1,8,23:00,,
+ba,y,0,?,j,m,neither,18-Jan,1,N,27,80,9,2:45,ects,victory
+ba,y,0,?,j,m,slim,29-09-93,1,N,10,0.5,3,23:30,hours of sleep,day
+finance,y,1,?,j,m,fat,04-Mar,4,N,40,0.5,5,1:30,good weather,no long lectures
+ba,y,0,?,j,m,fat,20-02-1991,0,N,0.7,1,3,0:00,weather,having to work
+ai,y,0,?,j,f,fat,14-02-1991,1,N,20,1,7,1:00,good weather,no obligations
+ai,y,1,?,n,m,neither,6-4-1992,2,N,5,1,9,23:00,exercise,fresh air
+ai,y,0,?,n,m,fat,28-Apr,4,N,10,0.6,5,2:00,good dinner,nice weather
+ba,y,0,?,j,m,neither,07-08-1992,0,N,60,150,3,23:00,sports win,enough sleep
+econometrics,n,0,?,j,m,fat,17-Dec,2,N,5,1,4,1:00,friends,high temperature
+econometrics,n,0,?,j,f,fat,20-11-1992,6,N,70,5,9,0:00,free stuff,eating a good meal / desert
+econometrics,n,0,?,j,m,fat,20-12-1989,5,N,10,1,7,2:00,money,girls
+econometrics,y,1,?,j,m,fat,04-11-1989,1,N,10,1,4,23:55,sports,friends
+ai,n,0,?,n,m,fat,7-6-1992,6,N,60,10,8,,no obligations,netflix
+hr analytics,n,1,?,n,m,neither,08-04-1979,0,N,20,1,7,,sex night before,sunshine
+econometrics,n,0,?,j,f,fat,02-Nov,2,N,,10,6,0:00,no school,nice weather (sunny)
+econometrics,n,0,?,j,f,fat,04-09-1992,10,N,15,2,6,1:30,tickets,drinks
+bioinformatics,n,0,?,n,m,slim,10-01-1989,1,N,60,0.3,8,39736,presence,joy
+cs,n,0,?,j,m,neither,16-11-1990,4,N,75,0,4,5:00,sleeping well,friends around
+econometrics,n,0,?,n,m,fat,18-Jan,1,N,30,20,7,0:00,bas,love
+international masters,n,0,?,n,m,neither,15-04-1991,0,N,37,10,4,1:45,good sleep,getting some  work done
+econometrics,y,1,?,j,m,I have no idea,23-May,4,N,23,100,2,0:00,sun,train comes on time
+ba,n,0,?,j,m,fat,1991,4,N,0,50,7,3:30,zon,
