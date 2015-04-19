@@ -47,8 +47,7 @@ The data used in this section is provided through the Kaggle website, which host
 
 \end{tabular}
 \end{table}
-In addition to the attributes mentioned in table~\ref{tab:passenger_attributes} the passengers in the training set also have an attribute denoting if they survived. This allows us to use the training set as the input for a supervised learning model and use said model to create predictions for survival on the test set. 
-We can start by gathering some basic statistics on the training set. In the trainingset $38.4\%$ survived. There are 216 first class passengers, 184 second class passengers and 491 third class passengers in the set. The passengers are $64.8\%$ male and $35.2\%$ female.\\
+In addition to the attributes mentioned in table~\ref{tab:passenger_attributes} the passengers in the training set also have an attribute denoting if they survived.  We can start by gathering some basic statistics on the training set. In the trainingset $38.4\%$ survived. There are 216 first class passengers, 184 second class passengers and 491 third class passengers in the set. The passengers are $64.8\%$ male and $35.2\%$ female.\\
 The correlation coefficient between sex and survival is $0.54$, meaning there is a positive correlation between being female and surviving. Next we look at class and survival. There is a positive correlation between being a first class passenger and surviving, with a correlation coefficient of $0.29$. The correlation for second class passengers and survival is $0.09$ and the correlation for third class passengers is $-0.32$.\\
 Fare is an alternative marker for socio-economic status. It is correlated with survival at $0.257$. One can wonder how much information the fare attribute adds on top of class. For first class passengers fare further differentiates passengers: there is a correlation with survival of $0.19$. Among second class passengers fare this is $0.10$, for third class passengers this is $0.00$.
 \begin{figure}[]
@@ -87,10 +86,10 @@ When we look at the correlation between being on lower deck and surviving, there
 
 \begin{table}[H]
     \sisetup{round-mode=places}
-    \caption{Scores using different classifiers. Scores are found using leave-one-out cross-validation. As a reference accuracy of `always guess non-survival' is 0.61.}
+    \caption{Scores using different classifiers. Scores are found using leave-one-out cross-validation, using Scikit-Learn with standard setting for the various models. As a reference accuracy of `always guess non-survival' is 0.61.}
     \label{tab:titanic_model_scores}
     \centering
-\resizebox{\linewidth}{!}{%
+\resizebox{0.8\linewidth}{!}{%
     \begin{tabular}{ c || S[round-precision=3] | S[round-precision=3] | S[round-precision=3] | S[round-precision=3] | S[round-precision=3]}
         \textbf{fields used} & \textbf{log. regression} & \textbf{SVM} & \textbf{decision tree} & \textbf{naive bayes} & \textbf{random forest} \\ \hline\hline
 class and sex & 0.786756453423 & 0.705948372615 & 0.705948372615 & 0.786756453423 & 0.768799102132 \\\hline
@@ -98,8 +97,12 @@ class, sex and family size & 0.800224466891 & 0.806958473625 & 0.794612794613 & 
 class, sex and known cabin & 0.786756453423 & 0.710437710438 & 0.791245791246 & 0.765432098765 & 0.776655443322 \\\hline
         \pbox{20cm}{class, sex, family size\\ and known cabin} & 0.800224466891 & 0.810325476992 & 0.783389450056 & 0.791245791246 & 0.792368125701 \\\hline
         \pbox{20cm}{class, sex, family size,\\ known cabin and fare} & 0.795735129068 & 0.781144781145 & 0.813692480359 & 0.766554433221 & 0.808080808081 \\\hline
-        \pbox{20cm}{class, sex, sibling/spouse,\\ parents/children, known\\cabin and fare} & 0.793490460157 & 0.766554433221 & 0.804713804714 & 0.773288439955 & 0.79797979798 \\ \end{tabular}}
+        \pbox{20cm}{class, sex, sibling/spouse,\\ parents/children, known\\cabin and fare} & 0.793490460157 & 0.766554433221 & 0.804713804714 & 0.773288439955 & 0.79797979798 \\ \hline
+        \pbox{20cm}{class, sex, family size,\\ known cabin, fare and age} & 0.79797979798 & 0.717171717172 & 0.792368125701 & 0.767676767677 & 0.811447811448 \\\hline
+        \pbox{20cm}{class, sex, family size,\\ known cabin, fare,\\ age and ship side} & 0.802469135802 & 0.707070707071 & 0.791245791246 & 0.76430976431 & 0.818181818182 \\
+\end{tabular}}
 \end{table}
+When looking at figure~\ref{tab:titanic_model_scores} we can notice a couple of thing. One is that it seems like combining sibling/spouse and child/parent in to one family size attributes can improve score. Second is that adding more attributes doesn't always improve score. The decision tree score for class, sex, family size, known cabin and fare seems high at 0.814 classification accuracy. A kaggle submission based on this model got a score of $0.76$. The random forsest model with class, sex, family size, known cabin, fare, age and ship side as attributes also has a high score at 0.818. A submission to Kaggle with this model gives $0.74$.
 \pagebreak
 \section{Research and Theory}
 Describing someone else's work is certainly a good way to advance further until you begin to feel your own initiatives coming. Let's try that by starting this section by describing the winning entry of a Kaggle competition.  
