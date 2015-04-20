@@ -7,14 +7,14 @@ df = pandas.read_csv('train.csv')
 
 def train_on_model(classifier, X, y, classifier_name):
     scores = cross_validation.cross_val_score(classifier, X, y, cv=cross_validation.LeaveOneOut(len(y)))
-    print classifier_name
+    print(classifier_name)
     mean_score = scores.mean()
-    print "leave one out score", mean_score
+    print( "leave one out score", mean_score)
     return mean_score
 
 
 def train_on_different_models(X, y, training_fields):
-    print training_fields
+    print(training_fields)
     scores = [training_fields]
     scores.append(train_on_model(linear_model.LogisticRegression(), X, y, "logistic regression"))
     scores.append(train_on_model(svm.SVC(), X, y, "support vector machine"))
@@ -24,9 +24,9 @@ def train_on_different_models(X, y, training_fields):
     print 
     return scores
 
-print "always guessing non survival"
+print( "always guessing non survival")
 y = df['Survived']
-print 1-y.mean()
+print( 1-y.mean())
 print 
 
 X = df[['Pclass', 'Sex']]

@@ -10,6 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pylab as pl
 from sklearn import linear_model, cross_validation, svm, tree, naive_bayes, ensemble
+import sklearn as sk
 
 
 data = pd.read_csv('ODI3.csv')
@@ -20,8 +21,6 @@ index = range(len(data))
 
 df = pd.DataFrame(index=index, columns = columns)
 
-
-##df['Prog'] = data[col_list[0]].map( {'bioinformatics': 1, 'econometrics':2, 'cs':3, 'ba':4, 'ai':5, 'computational science':3})
 #Set sex values of df to 0 for female, 1 for male
 df['Sex'] = data[col_list[5]].map( {'f': -1, 'm': 1} ).astype(int)
 #Set Machine Learning (ML) values of df to 0 for no, 1 for yes
@@ -37,7 +36,7 @@ df['Stress'] = data[col_list[10]]
 #to try conversion to numeric, and if not, set as NaN
 df['Money'] = data[col_list[11]].convert_objects(convert_numeric=True)
 df['Random'] = data[col_list[12]]
-#df['Bed'] = data[col_list[13]].convert_objects(convert_dates=True)
+
 #It is unreasonable that someone would have more than the maximum of the Moore Neighbourhood
 #(8 neighbours) thus rows with values greater than 8 are removed, because now I dont trust that slippery devil
 df = df[df.Neighb < 9]
@@ -45,18 +44,15 @@ df = df[df.Neighb < 9]
 df = df[df.Money <= 100]
 
 
-#fig, ax = plt.subplots()
-
-#a_heights, a_bins = np.histogram(df['Sex'])
-#b_heights, b_bins = np.histogram(df['ML'], bins=a_bins)
-#width = (a_bins[1] - a_bins[0])/3
-#ax.bar(a_bins[:-1], a_heights, width=width, facecolor='cornflowerblue')
-#ax.bar(b_bins[:-1]+width, b_heights, width=width, facecolor='seagreen')
-
-df = df[['Sex', 'ML', 'Stress']].dropna()
-X = df[['Sex', 'Stress']]
-y = df['ML']
+df = df[['Money', 'Sex', 'Chocolate']].dropna()
+X = df[['Money', 'Chocolate']]
+y = df['Sex']
 classifier = naive_bayes.GaussianNB()
 scores = cross_validation.cross_val_score(classifier, X, y, cv=10)
-print "ML attendence classification using naive bayes with sex and stress level as attributes, 10 fold CV:", scores.mean()
+print("Gender classification using naive bayes with stress level and chocolate values as attributes, 10 fold CV:", scores.mean())
+
+
+classifier = sk.neighbors.KNeighborsClassifier()
+scores = cross_validation.cross_val_score(classifier, X, y, cv=10)
+print("Gender classification using naive bayes with stress level and chocolate values as attributes, 10 fold CV:", scores.mean())
 

@@ -9,17 +9,80 @@
 \usepackage{url}
 \usepackage{siunitx}
 \usepackage{graphicx}
-\usepackage{pbox} 
+\usepackage{pbox}
+\usepackage{placeins}
+
+\newcommand{\squeezeup}{\vspace{-8.9mm}}
+\setcounter{secnumdepth}{3}
+\addtolength{\textfloatsep}{-3mm}
+\addtolength{\belowcaptionskip}{-15pt}
+
 
 
 \title{Data Mining -- Assignment 1}
 
-\author{Andrew Bedard -- Artagan Malsagov (2562231)  -- Shabaz Sultan(2566703)}
+\author{Andrew Bedard (2566978) -- Artagan Malsagov (2562231)  -- Shabaz Sultan(2566703)}
 
 \institute{}
 \begin{document}
 \maketitle
 \section{Own Dataset Initiative}
+\subsection*{Exploration}
+The data provided contained 105 records, each with 16 attributes. The data was in a variety of forms, from text and numbers to dates and time, as well as  text in both English and Dutch. There were also quality issues with the data, attributes were entered incorrectly, for example, an item that was supposed to be from 0 to 100 entered as $<50$\%. Additionally there were cases of items who's value should be impossible, such as someone having more than 8 neighbours sitting around them. To avoid these cases in the pre-processing all rows with such invalid values for their attributes were removed completely. After removing data with illegal values, there were 92 total records, containing 73 men and 19 women.
+
+
+There were several ways the data was categorized, boolean: True or False/ yes or no, number values, text, and categories. The list of Programs people were enrolled in was a category type value, as was their opinion on whether or not chocolate was slimming. Courses taken: attributes ML, IR, St, Db, Stand values and gender were all of the boolean category. Number values included discrete values such as a date or time, as with the Birthday and Bedtime, as well as continuous values like the money, stress and random number categories. Finally there were the two categories were students submitted text describing features of a good day in words.
+
+
+The dramatic differences in the types of data, and the non-standard way that a large amount of the data was input added further complexity to obtaining information from them. Ultimately much of the data that allowed for interpretation or the use of different languages, such as Birthday and Good day data was omitted for simplicity. For the attributes with numerical values this allowed for direct calculation of values like the mean, standard deviation, maximum and minimum values as shown in the table below.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline 
+ & Neighbours & Stress & Money & Random \\ 
+\hline 
+Mean & 3.3478 & 38.8767 & 11.6859 & 5.9433 \\ 
+\hline 
+Std & 2.0988 & 28.4819 & 23.6752 & 2.5362 \\ 
+\hline 
+Min & 0 & 0 & 0 & 1 \\ 
+\hline 
+Max & 8 & 99 & 100 & 10 \\ 
+\hline 
+\end{tabular} 
+\end{table}
+
+ There were few noteworthy features in the data that was apparent immediately, like how females said chocolate was fattening or neither exclusively.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.3]{menvswomenvschocolate} 
+    \caption{Cumulative Numbers of men and women who thought chocolate were either slimming, fattening, niether, or they had no idea. Here red is male, blue is female }
+\end{figure}
+
+Many of the attributes that have numerical values appeared to be normally distributed. Here is an example of a graph that shows the distribution of the stress values between genders, and a bar graph showing the average stress value for each gender.
+
+\begin{figure}[H]
+   	\centering
+	\subfloat[Distribution of stress values separated into genders] 
+      {%
+      \includegraphics[width=.3\linewidth]{stressvsgender}}
+      \hfill
+    \subfloat[Average stress values by gender]
+    {%
+    \includegraphics[width=.3\linewidth]{sexvsstress}}
+      \caption{}
+\end{figure}
+
+    
+\subsection*{Basic classification}
+
+Both a naive Bayes algorithm and a Neighbours-based classification methods. Using the pre-processed data obtained in the previous section our goal was to predict the gender of a student based on the Stress and their answer for whether they thought chocolate was slimming or not. The attributes Stress and Chocolate were chosen because there was a strong dichotomy between male and female in the answers for the chocolate category. Similarly there was a significant relationship between the stress level and the gender, as can be seen in \textbf{Fig:2}, thus they would intuitively produce at least noteworthy results.
+
+First, using the Naive Bayes algorithm with 10 fold Cross Validation, the mean score obtained was 0.7555. The Naive Bayes algorithm is based on the use of Bayes theorem with the assumption that every pair of features is independent from one another. Certainly this naive feature of this algorithm is not entirely correct, as was seen in the previous section there is a relationship between the value of Gender and Stress as well as Gender and Chocolate.
+
+Next, using the K-Neighbours algorithm with 10 fold Cross Validation, the mean score obtained was 0.8017. The K-Neighbours algorithm predicts the classification of a data point based on the consensus of the 5 closest neighbours (here closeness of neighbours is based on Minkowski distance). This very modest increase in the classification accuracy of the K-Neighbours algorithm over the Naive Bayes is likely due to some small effect, such as the naive assumption of the Bayes algorithm, which as we observed, is not entirely accurate.
 
 \section{Titanic Survivors}
 %\subsection{Introduction}
@@ -27,7 +90,7 @@
 %From an economic perspective one can wonder if the model of humans as `homo economicus', that of humans as rational, self-interested actors is the best way to model behaviour of people on that night. An econometric analysis shows that such a `homo economicus' model is overly simplistic because females and children were more likely to survive than physically stronger males. An analysis using said model is still valuable however because people who were closer to their prime age, were of higher social class or had access to more information were more likely to survive\cite{Frey2010}\cite{Frey2011}. \\
 %The reason why the deathrate was so high starts with the fact that there were not enough lifeboats. On top of that fewer passengers survived than there was space in lifeboats because of supposed reluctance to leave the ship (e.g. because of disbelief that the ship would actually sink or wives that did not want to be separated from their husbands). The difference in survival between males and females can be explained as a result of policy. The official explanation from the Mersey inquiry to explain the difference in survival rates between classes was that lower-class people were less willing to be parted from their belongings and that their English was poorer making them less able to follow orders from the crew. Statistical analysis based on nationality as a proxy for language ability refutes this second claim and suggest that explanations rejected by the inquiry (layout of the ship disadvantaging lower class people and outright discrimination when letting people on lifeboards) are more likely \cite{Hall1986}.\\
 %We can use publicly available data with personal details of Titanic passengers to build our own models to see if we are able to predict survival of a passenger based on things like sex and class.
-\subsection{Analysis of the Data}
+\subsection*{Analysis of the Data}
 The data used in this section is provided through the Kaggle website, which host machine learning competitions. The data is provided as a list of 891 passengers in a training set and 418 passengers in a test set. Both sets have a number of attributes marked, mentioned in table~\ref{tab:passenger_attributes}.
 \begin{table}[H]
 \caption{Attributes proved for each passenger in the dataset.}
@@ -77,10 +140,12 @@ The cabin number can be used to figure out a position within the ship. The cabin
     \caption{Percentage of survival among passengers on different decks. It should be noted that this is for passengers for whom cabin numbers where known; this is a subset that is more likely to have survived anyway.}
     \label{fig:survival_per_deck}
 \end{figure}
+
+
 \noindent
 When we look at the correlation between being on lower deck and surviving, there is small positive correlation of 0.05. This is somewhat surprising. However, this dataset is based on the group of passengers where the cabin number was known, which is a biased group anyway that was correlated with higher survival. To gain further insight in the relation between deck and survival, the survival percentage per deck is plotted in figure~\ref{fig:survival_per_deck}.
 
-\subsection{Machine Learning Models}
+\subsection*{Machine Learning Models}
 \label{subsec:titanic_machine_learning_models}
 
 \begin{table}[H]
