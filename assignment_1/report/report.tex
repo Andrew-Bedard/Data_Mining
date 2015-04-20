@@ -20,7 +20,10 @@
 
 
 \title{Data Mining -- Assignment 1}
-\author{Andrew Bedard -- Artagan Malsagov -- Shabaz Sultan}
+
+\author{Andrew Bedard -- Artagan Malsagov (2562231)  -- Shabaz Sultan(2566703)}
+
+\institute{}
 \begin{document}
 \maketitle
 \section{Own Dataset Initiative}
@@ -81,7 +84,7 @@ First, using the Naive Bayes algorithm with 10 fold Cross Validation, the mean s
 
 Next, using the K-Neighbours algorithm with 10 fold Cross Validation, the mean score obtained was 0.8017. The K-Neighbours algorithm predicts the classification of a data point based on the consensus of the 5 closest neighbours (here closeness of neighbours is based on Minkowski distance). This very modest increase in the classification accuracy of the K-Neighbours algorithm over the Naive Bayes is likely due to some small effect, such as the naive assumption of the Bayes algorithm, which as we observed, is not entirely accurate.
 
-\section{Titanic Survivors\\ \large or: How I learned to Stop Worrying and Love the Data}
+\section{Titanic Survivors}
 %\subsection{Introduction}
 %On the 14th of April, 1912 the RMS Titanic hit an iceberg and sank a few hours later. Of the 2207 people on that ship 1501 lost their lives on that night. These tragic events offer the opportunity to study exactly how people behave during such a life-and-death event.\\
 %From an economic perspective one can wonder if the model of humans as `homo economicus', that of humans as rational, self-interested actors is the best way to model behaviour of people on that night. An econometric analysis shows that such a `homo economicus' model is overly simplistic because females and children were more likely to survive than physically stronger males. An analysis using said model is still valuable however because people who were closer to their prime age, were of higher social class or had access to more information were more likely to survive\cite{Frey2010}\cite{Frey2011}. \\
@@ -127,10 +130,10 @@ Fare is an alternative marker for socio-economic status. It is correlated with s
     \label{fig:age_histogram}.
 \end{figure}
 \noindent
-Only 714 of the 891 passengers in the training set have their age marked. The average age of these 714 passengers is 29.7 years. The distribution of ages is plotted in a histogram in figure~\ref{fig:age_histogram}. Next we look the age distribution between survivors and non-survivors. The two right histograms in figure~\ref{fig:age_histogram} look pretty similar. There is a slight difference in the shape of the two distributions, expressed in the kurtosis.  It seems like age would not have great predictive value for survival, but might be more predictive after the population has been split up based on other criteria first.\\
+Only 714 of the 891 passengers in the training set have their age marked. The average age of these 714 passengers is 29.7 years. The distribution of ages is plotted in a histogram in figure~\ref{fig:age_histogram}. Next we look at the age distribution between survivors and non-survivors. The two right histograms in figure~\ref{fig:age_histogram} look pretty similar. There is a slight difference in the shape of the two distributions, expressed in the kurtosis.  It seems like age would not have great predictive value for survival, but might be more predictive after the population has been split up based on other criteria first.\\
 %Finally we look at embarkation ports. Based on intuition it seems less likely that this attribute is particularly predictive of survival. Looking at the data however, passengers who embarked from Southampton had a negative correlation with survival at $-0.16$. Passengers from Cherbourg had a positive survival correlation at $0.17$ and those from Queenstown had almost no correlation at $0.00$. One can wonder if these differences can be explained by a difference in e.g. sex and class between passengers from different ports. One way to explore this is building a decision tree with embarkation port, sex and class as attributes and see how far in the tree embarkation port ends up at, which we will try in section~\ref{subsec:titanic_machine_learning_models}.
 Using cabin number poses some complication of the attributes handles so far. Only 204 passengers in the training set have a known cabin number. Of those, some have multiple cabin numbers, when it was not known exactly which cabin they occupied. Also, the cabin number is a string with a letter and number that needs some pre-processing. If we look at the correlation of having a known cabin in the dataset and survival the correlation is $0.32$.  The data may be skewed by the fact that a partial list was recovered for the first class cabin allocations\cite{cavelist}. If we exclude first class passengers we see a smaller correlation of $0.17$ and within the first class group it is $0.15$.\\
-The cabin number can be used to figure out a position within the ship. The cabin number consist of a letter denoting deck and a number denoting position on said deck. The decks are labeled A to F, with A being closest to the top and F as the bottom deck (and one boat deck cabin on deck T). A simple way to use the number is to classify cabins in port and starboard, where odd numbered cabins are port and even are starboard.  This is not quite true for every deck (in particular not deck E). With some time exact positions could be constructed from deck layout images, but we this is outside of the scope of this report. If we mark odd as 1 and even as 0 and find a correlation of 0.17 with survival and having a cabin on the port side. Remove deck E cabins, the correlation becomes a bit stronger at 0.21.
+The cabin number can be used to figure out a position within the ship. The cabin number consist of a letter denoting deck and a number denoting position on said deck. The decks are labelled A to F, with A being closest to the top and F as the bottom deck (and one boat deck cabin on deck T). A simple way to use the number is to classify cabins in port and starboard, where odd numbered cabins are port and even are starboard.  This is not quite true for every deck (in particular not deck E). With some time exact positions could be constructed from deck layout images, but this is outside of the scope of this report. If we mark odd as 1 and even as 0, we find a correlation of 0.17 with survival and having a cabin on the port side. Remove deck E cabins, the correlation becomes a bit stronger at 0.21.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth, height=80px]{survival_per_deck}
@@ -171,7 +174,7 @@ The Social Network Challenge was hosted by IJCNN and posted on the Kaggle platfo
 
 And the winner was a team going by the name ``IND CCA". Its members wrote their winning approach in an article \cite{6033446} to which the interested reader is referred. The details of their approach are quite intricate, so here's the gist of it. While de-anonymization was forbidden, that is exactly what the winning team did. After finding out the data had been obtained by crawling Flickr, the group decided to crawl Flickr themselves and in so doing managed to de-anonymize $64.7 \%$ of the test edge-set. On the remainder of the test set they used a Random Forest Classifier, training this algorithm on standard link prediction features of both the training and the de-anonymized test set, thus achieving a whopping and winning AUC of $0.981$.
 
-It was this piece of bravado to de-anonymize the test set that made the method stand out. It wasn't blatant cheating, since once the group got a lead in the competition, they contacted the organizers and explained their method, offering to resign all together from the competition. Their method was approved though, and they went on to win the competition. The aim of the slight cheat in their method was of a different kind though, for they wished to raise awareness of the lasting possibility of de-anonymization in machine learning contests and hoped this would provide food for thought on how contest should be run in the future.
+It was this piece of bravado to de-anonymize the test set that made the method stand out. It wasn't blatant cheating, since once the group got a lead in the competition, they contacted the organizers and explained their method, offering to resign all together from the competition. Their method was approved though, and they went on to win the competition.
 
 \subsection{MSE vs. MAE}
 The subject of this part is the use of the two metrics MSE and MAE. A definition of both would be in order: suppose that $\hat{y}$ is a vector of $n$ predicted values and $y$ is the same vector of true values. MSE is measured as: $\frac{1}{n}\sum_{i=1}^{n}(\hat{y_{i}} - y_{i})^{2}$  
@@ -184,7 +187,7 @@ On the other hand, if large errors are the main concern, than MSE is the tool of
 Suppose we are dealing with a classification problem and the vector of true values $y=[y_{1},\dots,y_{n}]^{T}$ is binary. Then the errors are either $0$ or $1$ in absolute value and likewise when squared, i.e. $(\hat{y_{i}} - y_{i})^{2}=|\hat{y_{i}}-y_{i}|$ for all $i$. Averaging over all $n$ errors gives then the same value for the MSE and MAE.
 
 \subsubsection{Examples}
-For a real example we use a dataset from \cite{Longl}, also called the Longley dataset; it was downloaded from source \cite{WinNT}. This data set consists of highly collinear macro-economic variables. Each instance in the data set corresponds to a year in the period of 1947-1962, where GNP, GNP deflator, unemployed population, employed population, armed forces population, entire population, year were all recorded as variables.
+For a real example we use a dataset from \cite{Longl}, also called the Longley dataset; it was downloaded from source \cite{WinNT}. This data set consists of highly collinear macro-economic variables. Each instance in the data set corresponds to a year in the period of 1947-1962, where GNP, GNP deflator, unemployed population, employed population, armed forces population, entire population and year were all recorded as variables.
 
 %\begin{table}[H]
 %\caption{Variables of Longley dataset}
@@ -202,7 +205,7 @@ For a real example we use a dataset from \cite{Longl}, also called the Longley d
 %\end{tabular}
 %\end{table}
 
-Before we discussed the fact that MSE shrugs off the occurrence of smaller errors, while MAD takes them into account. This dataset shall aid us in illustrating the point. The variables are highly collinear and can thus explain each other well in a regression, providing small errors. Let's use ``Employed" as the dependent variable of our regression and regress on variable $x=$GNP. First, a general linear regression: $\displaystyle y = \beta_{0} + \beta_{1}x$. Then, a quadratic regression $\displaystyle y = \beta_{0} + \beta_{1}x +\beta_{2}x^{2}$, which captures saturation effects of GNP on Employed. The MSE and MAE of the two regressions programmed in Python are summarized below.
+Remember, before we discussed the fact that MSE shrugs off the occurrence of smaller errors, while MAE takes them into account. This dataset shall aid us in illustrating the point. The variables are highly collinear and can thus explain each other well in a regression, providing small errors. Let's use ``Employed" as the dependent variable of our regression and regress on variable $x=$GNP. First, a general linear regression: $\displaystyle y = \beta_{0} + \beta_{1}x$. Then, a quadratic regression $\displaystyle y = \beta_{0} + \beta_{1}x +\beta_{2}x^{2}$, which captures saturation effects of GNP on Employed. The MSE and MAE of the two regressions programmed in Python are summarized below.
 \begin{table}[H]
     \centering
     \begin{tabular}{l | c | c}
@@ -217,11 +220,10 @@ Before we discussed the fact that MSE shrugs off the occurrence of smaller error
 \subsection{SMS dataset: text mining Ham and Spam}
 The data in the SMS dataset consists of text messages labelled as either spam or ham. The aim is to model this data and be able to predict whether a message is spam or ham. A possible model is the bag-of-words, where the text data set is represented by a ``bag" containing its words, disregarding word-order and grammar. It is also possible to use the $n$-gram model, which allows to take into account the word-order and grammar, with for instance a bi-gram being two consecutive words. The bag then contains every sequence of two consecutive words present in the text. 
 
-First, the data has to be tokenized, that is, broken up into words and other meaningful symbols. The words can then be stemmed, which makes things easier by grouping words according their root. Finally, stopwords can be dropped, which are common words of little value. This yields a concise bag of words on which an algorithm can be trained.
+First, the data has to be tokenized, that is, broken up into words and other meaningful symbols. The words can then be stemmed, which makes things easier by grouping words according to their root. Finally, stopwords can be dropped, which are common words of little value. This yields a concise bag of words on which an algorithm can be trained.
 
 Let's use Naive Bayes as our classifier and let's disregard for now the frequency of a word within a message, meaning that a word is either present or not in a message and the probabilities are calculated accordingly. The result of applying this model with 10-fold cross validation is an average score of $0.87$, so on average $87\%$ is predicted correctly. Allowing for words to have different frequencies does not improve the score. This might have worked better if the dataset were larger.
-
-Much more can be done of course. Instead of Naive Bayes other more complex classifiers can be used, such as decision trees for instance or k-nearest neighbours, which take word-dependencies into account by recalculating the information gain and by considering majority pattern among neighbours, respectively. Also, instead of a bag of single words, bigram or trigram models can be used, which would pick up on more of the grammatical structure in the messages.
+re can be done of course. Instead of Naive Bayes other more complex classifiers can be used, such as decision trees for instance or k-nearest neighbours, which take word-dependencies into account by recalculating the information gain and by considering majority patterns among neighbours, respectively. Also, instead of a bag of single words, bigram or trigram models can be used, which would pick up on more of the grammatical structure in the messages.
 
                         
 \bibliographystyle{plain}
