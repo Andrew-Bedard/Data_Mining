@@ -42,6 +42,22 @@ class_sex_fam_cabin_scores = train_on_different_models(X,y, "class, sex, family 
 X['Fare'] = df['Fare']
 class_sex_fam_cabin_fare_scores = train_on_different_models(X,y, "class, sex, family size, known cabin and fare")
 
+X['Age'] = df['Age'].fillna(df['Age'].mean())
+class_sex_fam_cabin_fare_age_scores = train_on_different_models(X,y, "class, sex, family size, known cabin, fare and age")
+
+
+def find_port_starboard(cabin):
+    if " " in cabin:
+        cabin = cabin.split()[0]
+    if len(cabin) == 1:
+        return 0.5
+    if cabin[0] == 'E':
+        return 0.5
+    return int(cabin[1:])%2
+
+X['Port_star'] = df['Cabin'].fillna('X').apply(find_port_starboard)
+class_sex_fam_cabin_fare_age_portstar_scores = train_on_different_models(X,y, "class, sex, family size, known cabin, fare, age and ship side")
+
 X = X[['Pclass', 'Sex', 'Known_cabin', 'Fare']]
 X['Parch'] = df['Parch']
 X['SibSp'] = df['SibSp']
@@ -57,4 +73,6 @@ print " & ".join(map(str,class_sex_cabin_scores)) + " \\\\"
 print " & ".join(map(str,class_sex_fam_cabin_scores)) + " \\\\"
 print " & ".join(map(str,class_sex_fam_cabin_fare_scores)) + " \\\\"
 print " & ".join(map(str,class_sex_sibspouse_parentchild_cabin_fare_scores)) + " \\\\"
+print " & ".join(map(str,class_sex_fam_cabin_fare_age_scores)) + " \\\\"
+print " & ".join(map(str,class_sex_fam_cabin_fare_age_portstar_scores)) + " \\\\"
 
