@@ -1,7 +1,8 @@
 #include <fstream>
 #include <iostream>
 #include <random>
-
+#include <set>
+#include <stdlib.h>    
 
 int main()
 {
@@ -17,12 +18,25 @@ int main()
     std::getline(infile, line);
     outfile << line << std::endl;
 
+    std::set<int> accepted_search_ids;
+    std::set<int> rejected_search_ids;
 
     while (std::getline(infile, line)) {
-        if (distReal(engine) < 0.01) {
-            outfile << line << std::endl;
-            counter++;
+        int searchid = atoi(line.substr(0, line.find(",")).c_str());
+
+        if (accepted_search_ids.count(searchid) == 0 && rejected_search_ids.count(searchid) == 0) {
+            if (distReal(engine) < 0.01) {
+                outfile << line << std::endl;
+                counter++;
+                accepted_search_ids.insert(searchid);
+            } else {
+                rejected_search_ids.insert(searchid);
+            }
+        } else if (accepted_search_ids.count(searchid) > 0) {
+                outfile << line << std::endl;
+                counter++;
         }
+
     }
     std::cout << "number of lines: " << counter << std::endl;
     return 0;
