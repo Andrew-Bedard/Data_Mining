@@ -44,8 +44,8 @@ df = df[df.Neighb < 9]
 df = df[df.Money <= 100]
 
 
-df = df[['Money', 'Sex', 'Chocolate']].dropna()
-X = df[['Money', 'Chocolate']]
+df = df[['Stress', 'Sex', 'Chocolate']].dropna()
+X = df[['Stress', 'Chocolate']]
 y = df['Sex']
 classifier = naive_bayes.GaussianNB()
 scores = cross_validation.cross_val_score(classifier, X, y, cv=10)
