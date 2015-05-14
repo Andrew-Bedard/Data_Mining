@@ -69,6 +69,7 @@ df1 = grouped['log10_price_usd'].agg({'mean_price_prop_id' : np.mean, 'std_price
 result = pd.merge(df,df1, how='inner', on='prop_id')
 df = result
 df['price_usd_Gauss_normalzed_prop_id'] = (df.log10_price_usd - df.mean_price_prop_id)/df.std_price_prop_id
+df['price_usd_Gauss_normalzed_prop_id'] = df['price_usd_Gauss_normalzed_prop_id'].replace(float('inf'),0,regex=True) #turns out there is an infinity
 
 
 ###normalize by the maximal and minimal observation###
@@ -104,17 +105,20 @@ numerical_attributes = ['prop_review_score', 'prop_brand_bool', 'prop_location_s
 
 df = df.fillna(df.mean())
 
-# # Click training
-# y = df['click_bool']
-# X = df[numerical_attributes + features_engineered]
-# clf_click = svm.SVC(class_weight = 'auto')
-# clf_click.fit(X,y)
+# Click training
+y = df['click_bool']
+X = df[numerical_attributes + features_engineered]
+clf_click = svm.SVC(class_weight = 'auto')
+model = clf_click.fit(X,y)
+
+model.score(X,y)
 
 # #Booking training
 # y = df['booking_bool']
 # X = df[numerical_attributes + feautures_engineered]
 # clf_book = svm.SVC(class_weight = 'auto')
 # clf_book.fit(X,y)
+
 
 
 
