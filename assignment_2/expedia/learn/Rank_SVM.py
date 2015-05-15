@@ -98,35 +98,54 @@ df = result
 df['price_usd_normalized_srch_destination_id'] = (df.log10_price_usd - df.min_price_srch_destination_id)/df.max_price_srch_destination_id
 
 
-### Training
+### Training###
 features_engineered = ['log10_price_usd', 'starrating_diff', 'usd_diff', 'prob_book_prop_id', 'prob_click_prop_id','prop_starrating_monotonic', 'price_usd_Gauss_normalzed_search_id', 'price_usd_Gauss_normalzed_prop_id', 'price_usd_Gauss_normalzed_prop_id','price_usd_normalized_srch_destination_id', 'price_usd_normalized_prop_id', 'price_usd_normalized_search_id']
 
 numerical_attributes = ['prop_review_score', 'prop_brand_bool', 'prop_location_score1', 'prop_location_score2', 'prop_log_historical_price', 'promotion_flag', 'srch_length_of_stay', 'srch_booking_window', 'srch_adults_count', 'srch_children_count', 'srch_room_count', 'srch_saturday_night_bool', 'srch_query_affinity_score', 'orig_destination_distance', 'random_bool']
 
 df = df.fillna(df.mean())
 
-# Click training
-y = df['click_bool']
-X = df[numerical_attributes + features_engineered]
+msk = np.random.rand(len(df)) < 0.8
+train_set = df[msk]
+test_set = df[~msk]
+
+#Click training
+y = train_set['click_bool']
+X = train_set[numerical_attributes + features_engineered]
 clf_click = svm.SVC(class_weight = 'auto')
-model = clf_click.fit(X,y)
+clf_click.fit(X,y)
 
-model.score(X,y)
+print('done with clicking')
 
-# #Booking training
-# y = df['booking_bool']
-# X = df[numerical_attributes + feautures_engineered]
-# clf_book = svm.SVC(class_weight = 'auto')
-# clf_book.fit(X,y)
+#Booking training
+y = train_set['booking_bool']
+X = train_set[numerical_attributes + features_engineered]
+clf_book = svm.SVC(class_weight = 'auto')
+clf_book.fit(X,y)
 
+print('done with booking')
+###Testing###
+click_prediction = clf_click.predict(test_set)
+booking_prediction = clf_book.predict(test_set)
 
+# ref_df = df[['srch_id', 'booking_bool', 'click_bool']]
+# ref_df['real_score'] = (ref_df.booking_bool * 5  + ref_df.click_bool)
+# ref_df['predict_booking'] = booking_predictions
+# ref_df['predict_click'] = click_predictions
+# ref_df['predict_score'] = ref_df.predict_booking * 5 + ref_df.predict_click
+# grouped = ref_df.groupby('srch_id')
 
+# ndcgs = []
+# for name, group in grouped:
+#     real_sorted = group.sort('real_score', ascending=False)
+#     idcg = 0
+#     for (i, (index,val)) in enumerate(real_sorted.iterrows(), start=1):
+#         idcg += (2**val.real_score-1)/numpy.log2(i+1)
+#     predict_sorted = group.sort('predict_score', ascending=False)
+#     dcg = 0
+#     for (i, (index,val)) in enumerate(predict_sorted.iterrows(), start=1):
+#         dcg += (2**val.real_score-1)/numpy.log2(i+1)
+#     ndcgs.append(dcg/idcg)
 
-
-
-
-
-
-
-
+# print numpy.mean(ndcgs)
 
