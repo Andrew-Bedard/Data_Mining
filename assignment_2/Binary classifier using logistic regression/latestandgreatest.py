@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-
+import copy
 import pandas
 import numpy
 from patsy import dmatrices
@@ -12,28 +12,21 @@ from sklearn import metrics
 
 def pre_proc(DF):
 
-    """
-    Adding all sorts of features, as well as dealing with outliers
-    """
-
     ##Replace all price_usd outliers with 999999, to be replaced with 3rd quartile values below
     #DF.price_usd = [DF.price_usd <= 5000]
     high_list = [i for i, e in enumerate(DF.price_usd) if e>=5001]
     low_list = [i for i, e in enumerate(DF.price_usd) if e <=10]
     DF.price_usd[high_list] = 999999
     DF.price_usd[low_list] = 999999
-
-    #ppn_usd is price per night
-    DF['ppn_usd'] = DF.price_usd/DF.srch_length_of_stay
-
-    #ump = exp(prop_log_historical_price) - price_usd
-    DF['ump'] = numpy.exp(DF.prop_log_historical_price) - DF.price_usd
     
 
     f = lambda x: x.fillna(x.mean())
-    g = lambda x: x.replace(999999, x.quantile(0.75))
-    h = lambda x: x.replace(0, x.quantile(0.25))
+    g = lambda x: x.replace(999999, x.quantile(0.25))
+    h = lambda x: x.replace(0, x.quantile(0.75))
+    j = lambda x: x.replace(0, x.quantile(0.25))
+    k = lambda x: x.replace(0, x.mean())
     groups = DF.groupby('prop_country_id')
+    #filling in Nan values
     DF.prop_location_score2 = groups.prop_location_score2.transform(f)
     DF.visitor_hist_adr_usd = groups.visitor_hist_adr_usd.transform(f)
     DF.visitor_hist_starrating = groups.visitor_hist_starrating.transform(f)
@@ -44,6 +37,15 @@ def pre_proc(DF):
     #some hotels have zero star rating, ie: no rating, replace with first quartile
     DF.prop_starrating = groups.prop_starrating.transform(h)
     DF.prop_review_score = groups.prop_review_score.transform(h)
+    
+    DF.prop_log_historical_price = groups.prop_log_historical_price.transform(j)
+    DF.srch_length_of_stay = groups.srch_length_of_stay.transform(k)
+
+    #ppn_usd is price per night
+    DF['ppn_usd'] = DF.price_usd/DF.srch_length_of_stay
+
+    #ump = exp(prop_log_historical_price) - price_usd
+    DF['ump'] = numpy.exp(DF.prop_log_historical_price) - DF.price_usd
 
 
     #
@@ -60,61 +62,50 @@ def pre_proc(DF):
     
     #
     DF['total_fee'] = DF.price_usd*DF.srch_room_count
+    
+    DF = DF.fillna(0)
 
     return(DF)
 
 
 def dmatrices_thingy(DF, bool_var):
 
-    """
-    I'm not even 100percent sure what this does, but I seem to need to do it
-    """
+    y, X = dmatrices(' %s ~ prop_location_score2 + ump + price_diff +\
+     starrating_diff + score1d2 + random_bool + per_fee + price_usd +\
+     prop_review_score + total_fee + prop_starrating' %bool_var ,DF, return_type="dataframe")
 
-	y, X = dmatrices(' %s ~ visitor_hist_adr_usd + prop_country_id + \
-	prop_id + prop_starrating + prop_review_score + prop_brand_bool + \
-	prop_location_score1 + prop_location_score2 + prop_log_historical_price + \
-	promotion_flag + srch_destination_id + srch_length_of_stay + \
-	srch_booking_window + srch_adults_count + srch_children_count + \
-	srch_room_count + srch_saturday_night_bool + srch_query_affinity_score + \
-	orig_destination_distance + random_bool + gross_bookings_usd + ppn_usd + ump + price_diff + \
-	starrating_diff + per_fee + score1d2 + total_fee' %bool_var ,DF, return_type="dataframe")
+    y = numpy.ravel(y)
 
-	y = numpy.ravel(y)
-
-	return(y, X)
+    return(y, X)
 
 
-###
 """ Load Dataset """
-###
 df = pandas.read_csv('decimated_training_set_10_pct.csv')
-#date_time gives me troubles, so I just leave it out completely
 df = df.drop('date_time',1)
 
-vals_and_stuff = ['visitor_hist_adr_usd', 'prop_country_id', 'prop_id', 'prop_starrating', \
-'prop_review_score', 'prop_brand_bool', 'prop_location_score1', \
-'prop_location_score2', 'prop_log_historical_price', 'promotion_flag', \
-'srch_destination_id', 'srch_length_of_stay', 'srch_booking_window', \
-'srch_adults_count', 'srch_children_count', 'srch_room_count', \
-'srch_saturday_night_bool', 'srch_query_affinity_score',\
-'orig_destination_distance', 'random_bool', 'gross_bookings_usd', 'ppn_usd', 'ump', 'price_diff', 'starrating_diff',\
-'per_fee', 'score1d2', 'total_fee']
+print(df.visitor_hist_starrating.describe())
+
+vals_and_stuff = ['prop_location_score2', 'ump', 'price_diff', 'starrating_diff',\
+'score1d2', 'random_bool', 'per_fee', 'price_usd', 'prop_review_score',\
+'total_fee', 'prop_starrating']
 
 bool_vars = ['click_bool', 'booking_bool']
 
 df = pre_proc(df)
 
+print(df.visitor_hist_starrating.describe())
+
 y, X = dmatrices_thingy(df, bool_vars[0])
 
-clicking_classifier = LogisticRegression(class_weight = 'auto')
+clicking_classifier = LogisticRegression(class_weight = 'auto', C = 1.5)
 clicking_classifier = clicking_classifier.fit(X,y)
-clicking_classifier.score(X,y)
+print(clicking_classifier.score(X,y))
 
 y, X = dmatrices_thingy(df, bool_vars[1])
 
-booking_classifier = LogisticRegression(class_weight = 'auto')
+booking_classifier = LogisticRegression(class_weight = 'auto', C = 1.5)
 booking_classifier = booking_classifier.fit(X,y)
-booking_classifier.score(X,y)
+print(booking_classifier.score(X,y))
 
 full_df = pandas.read_csv('decimated_training_set_1_pct.csv')
 full_df = full_df.drop('date_time',1)
@@ -123,9 +114,8 @@ full_df = pre_proc(full_df)
 
 test_set = full_df[vals_and_stuff]
 test_set = test_set.fillna(test_set.mean())
-test_set['Intercept'] = 1
-#clicking_classifier.transform(test_set)
-#booking_classifier.transform(test_set)
+#Logistic regression creates intercept colum, so we need to make one for test set
+test_set['Intercept'] = 0
 click_predictions = clicking_classifier.predict(test_set)
 booking_predictions = booking_classifier.predict(test_set)
 
@@ -136,6 +126,9 @@ ref_df['predict_booking'] = booking_predictions
 ref_df['predict_click'] = click_predictions
 ref_df['predict_score'] = ref_df.predict_booking * 5 + ref_df.predict_click
 grouped = ref_df.groupby('srch_id')
+
+
+
 
 
 ndcgs = []
