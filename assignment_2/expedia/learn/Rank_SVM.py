@@ -3,10 +3,10 @@ import numpy as np
 import math 
 from sklearn import linear_model, cross_validation, svm, tree, naive_bayes, ensemble
 
-
-df = pd.read_csv('../data/decimated_training_set_1_pct.csv')
+df = pd.read_csv('../data/decimated_training_set_10_pct.csv')
 
 #taking the base 10 log, gives the feature price_usd monotonic utility with respect to the target vairiables
+df['price_usd']= df['price_usd'].replace(0,df['price_usd'].max(),regex=True)
 df['log10_price_usd'] = df['price_usd'].apply(math.log10)
 
 
@@ -98,21 +98,17 @@ df = result
 df['price_usd_normalized_srch_destination_id'] = (df.log10_price_usd - df.min_price_srch_destination_id)/df.max_price_srch_destination_id
 
 ###remove infinity values and NaNs###
+df['orig_destination_distance']= df['orig_destination_distance'].replace(float('NaN'),df['orig_destination_distance'].max(),regex=True)
 df = df.replace(float('inf'),0,regex=True)
-df = df.fillna(df.mean())
 df= df.replace(float('NaN'),0,regex=True)
+
 
 ### Training###
 features_engineered = ['log10_price_usd', 'starrating_diff', 'usd_diff', 'prob_book_prop_id', 'prob_click_prop_id','prop_starrating_monotonic', 'price_usd_Gauss_normalzed_search_id', 'price_usd_Gauss_normalzed_prop_id', 'price_usd_Gauss_normalzed_prop_id','price_usd_normalized_srch_destination_id', 'price_usd_normalized_prop_id', 'price_usd_normalized_search_id']
 
 numerical_attributes = ['prop_review_score', 'prop_brand_bool', 'prop_location_score1', 'prop_location_score2', 'prop_log_historical_price', 'promotion_flag', 'srch_length_of_stay', 'srch_booking_window', 'srch_adults_count', 'srch_children_count', 'srch_room_count', 'srch_saturday_night_bool', 'srch_query_affinity_score', 'orig_destination_distance', 'random_bool']
 
-msk = np.random.rand(len(df)) < 0.8
-df_train = df[msk]
-df_test = df[~msk]
-
-train_set = df_train[numerical_attributes + features_engineered + ['booking_bool', 'click_bool']]
-test_set =  df_test[numerical_attributes + features_engineered + ['booking_bool', 'click_bool']]
+train_set = df[numerical_attributes + features_engineered + ['booking_bool', 'click_bool']]
 
 #Click training
 y = train_set['click_bool']
@@ -129,14 +125,19 @@ clf_book = svm.SVC(class_weight = 'auto')
 clf_book.fit(X,y)
 
 print('done with training on bookings')
+
+df= pd.read_csv('../data/decimated_training_set_1_pct.csv')
+
 ###Testing###
+test_set = df[numerical_attributes + features_engineered + ['booking_bool', 'click_bool']]
+
 X = test_set[numerical_attributes + features_engineered]
 click_predictions = clf_click.predict(X)
 booking_predictions = clf_book.predict(X)
 
 print('done testing')
 
-ref_df = df_test[['srch_id', 'booking_bool', 'click_bool']]
+ref_df = df[['srch_id', 'booking_bool', 'click_bool']]
 ref_df['real_score'] = (ref_df.booking_bool * 5  + ref_df.click_bool)
 ref_df['predict_booking'] = booking_predictions
 ref_df['predict_click'] = click_predictions
