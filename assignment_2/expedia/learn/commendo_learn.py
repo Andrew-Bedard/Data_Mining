@@ -27,7 +27,7 @@ def gen_aggregate_vals(df, attribs):
 
 #agg_attribs = numerical_attributes
 
-for attribute in numerical_attributes + [None]:
+for attribute in [None]:
 #if True:
 
     agg_attribs = [attribute]
@@ -43,25 +43,27 @@ for attribute in numerical_attributes + [None]:
 
     print "training clicker model"
     clickers = df[df.click_bool == 1]
-    non_clickers = df[df.click_bool == 0][:len(clickers)]
+    non_clickers = df[df.click_bool == 0]
     new_frame = pandas.concat([clickers,non_clickers] )
     X = new_frame.drop(['click_bool', 'booking_bool'],1)
     y = new_frame['click_bool']
     clicking_classifier = model()
     clicking_classifier.fit(X,y)
     pickle.dump(clicking_classifier, open("clicking_classifier.pickle","wb"))
+    #clicking_classifier = pickle.load(open("clicking_classifier.pickle", "rb"))
 
 
 
     print "training booking model"
     bookers = df[df.booking_bool == 1]
-    non_bookers = df[df.booking_bool == 0][:len(bookers)]
+    non_bookers = df[df.booking_bool == 0]
     new_frame = pandas.concat([bookers,non_bookers] )
     X = new_frame.drop(['click_bool', 'booking_bool'],1)
     y = new_frame['booking_bool']
     booking_classifier = model()
     booking_classifier.fit(X,y)
     pickle.dump(booking_classifier, open("booking_classifier.pickle","wb"))
+    #booking_classifier = pickle.load(open("booking_classifier.pickle", "rb"))
 
 
     print "generating prediction for test set"
