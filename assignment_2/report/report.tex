@@ -27,9 +27,9 @@
 \begin{document}
 \maketitle
 \section{Introduction}
-The online travel agency (OTA) Expedia posed the challenge to rank hotels by their likelihood of being booked. In such a competitive market as the one of click-through purchases, properly ranking offered hotels according to user's preferences becomes indispensable if the OTA wishes to win the sale. See the Kaggle platform \cite{WinNT} for further information on the competition.
+The online travel agency (OTA) Expedia posed the challenge to rank hotels by their likelihood of being booked. In such a competitive market as the one of click-through purchases, properly ranking offered hotels according to user's preferences becomes indispensable for the OTA to win the sale. See the Kaggle platform \cite{WinNT} for further information on the competition.
 
-This report details our approach to tackling this problem based on the search and click-through data provided by Expedia. First, a description of the data is provided and the problem is defined in more rigorous terms, after which a short review of the available literature on the topic is given. Then follows a review of the methods and models used by us and how they held up to the challenge. Finally, we finish off with a summary and some concluding remarks.  
+This report details our approach to tackling this problem based on the search and click-through data provided by Expedia. First, a short review of the available literature on the topic is given. Then a description of the data is provided and the problem is defined in more rigorous terms. This is followed up by a review of the methods and models used by us and how they held up to the challenge. Finally, we finish off with a summary and some concluding remarks.  
 
 \section{Related work}
 The use of ranking algorithms in the industry of online travel booking is relatively new. Here is a sample of the approaches of some of the groups that particaped in the Kaggle challenge.
@@ -38,7 +38,7 @@ Let's start with the official winner of the competition, whose approach was deta
 
 The official runner-up also did a lot of feature engineering. Missing values were replaced by worst-case scenario, since customers probably don't like to book hotels with missing values. For instance the missing values of competitor where replaced by zero. Furthermore, certain numerical features were normalized with respect to different indicators such as the prop\_id, srch\_id and month. New features were constructed such as the difference between the visitor's starrating and the starrating given to a certain property. This gave a total of 300 features on which the models LambdaMART, SVM Rank and linear regression were used. The final model was LambdaMART.
 
-The paper *reference here* detail an approach which meshes together several different ranking models: logistic regression, support vector machines, random forest, gradient boosting machine, factorization machine and LambdaMART, among others. The team identified the most import features as price\_usd, prop\_starrating and prop\_location\_score2. For missing values the first quartile calculated for the prop\_id of the missing data point. For an ensemble the team tried differnt linear combinations and sought the combination that would give a better result than one of the single models could.  
+The paper *reference here* detail an approach which meshes together several different ranking models: logistic regression, support vector machines, random forest, gradient boosting machine, factorization machine and LambdaMART, among others. The team identified the most import features as price\_usd, prop\_starrating and prop\_location\_score2. For missing values the first quartile calculated for the prop\_id of the missing data point was used. As their ensemble the team tried different linear combinations and sought the combination that would give a better result than one of the single models could.  
 
  
 \section{Data description}
