@@ -129,8 +129,6 @@ grouped = ref_df.groupby('srch_id')
 
 
 
-
-
 ndcgs = []
 for name, group in grouped:
     real_sorted = group.sort('real_score', ascending=False)
