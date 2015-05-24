@@ -104,13 +104,15 @@ To begin, a simple Logistic Regression model was created using all of the suppli
 Finally using our two classifiers we tested on our 1\% data set, one at a time to predict booking and clicking. Using this method we achieved a NDCG score of: \textbf{0.3531}, which is comparable with pure random sorting.
 
 Several composite features were created as outlined in \cite{DBLP:journals/corr/LiuXZYPLSW13}
-\[\textit{ump = exp(prop\_ log\_ historical\_ price) - price\_ usd}\]
-\[\textit{price\_ diff = visitor\_ hist\_ adr\_ usd - price\_ usd}\]
-\[\textit{starrating\_ diff = visitor\_ hist\_ starrating - prop\_ starrating}\]
-\[\textit{per\_ fee} = \frac{\textit{price\_ usd*srch\_ room\_ count}}{\textit{srch\_ adults\_ count+srch\_ children\_ count}}\]
-\[\textit{score2ma = prop\_ location\_ score2*srch\_ query\_ affinity\_ score}\]
-\[\textit{total\_ fee = price\_ usd*srch\_ room\_ count}\]
-\[\textit{score1d2} = \frac{\textit{prop\_ location\_ score2} + 0.0001}{\textit{prop\_ location\_ score1} + 0.0001}\]
+\begin{align*}
+    \textit{ump} &= \textit{exp(prop\_ log\_ historical\_ price) - price\_ usd}\\
+    \textit{price\_ diff} &= \textit{visitor\_ hist\_ adr\_ usd - price\_ usd}\\
+    \textit{starrating\_ diff} &= \textit{visitor\_ hist\_ starrating - prop\_ starrating}\\
+    \textit{per\_ fee} &= \frac{\textit{price\_ usd*srch\_ room\_ count}}{\textit{srch\_ adults\_ count+srch\_ children\_ count}}\\
+    \textit{score2ma} &= \textit{prop\_ location\_ score2*srch\_ query\_ affinity\_ score}\\
+    \textit{total\_ fee} &= \textit{price\_ usd*srch\_ room\_ count}\\
+    \textit{score1d2} &= \frac{\textit{prop\_ location\_ score2} + 0.0001}{\textit{prop\_ location\_ score1} + 0.0001}
+\end{align*}
 
 These newly created features all fall under the top 20 relevant features as calculated by \cite{DBLP:journals/corr/LiuXZYPLSW13}, thus we fellow the procedure as above and create a new model with clicking and booking classifiers, adding in these new features. The resulting NDCG score was: \textbf{0.3535}, which is a negligible gain over the previous score of 0.3531. We assumed this was due to too many features in the model, so our next test was to remove many of these features to measure any difference in performance.
 
