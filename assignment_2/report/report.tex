@@ -63,6 +63,7 @@ Finally, there are multiple output variables, which can be represented in differ
 
 
 \section{Working on the data}
+\label{sec:working_on_data}
 
 	There were a few challenges with working on the data. First was the sheer number of records, which made direct observation and manipulation very challenging, thus from the data set approximately 10\% was selected for analysis and training. This was done by first selecting 10\% of the records, then adding further records to ensure we had complete data for each search id, that is, if we selected a record from search id \textit{x}, then all records from search id \textit{x} were added to our data.
 
@@ -89,7 +90,7 @@ Finally, there are multiple output variables, which can be represented in differ
 
 
 \section{Models and evaluation}
-
+To explore various options we have developed various preliminary models, based on approaches we found in the literature. Not all of the approaches in this section use the methods for filling in data mentioned in section~\ref{sec:working_on_data}. It is however used in the model specified in section~\ref{sec:final_model}, which also details how elements from the models in this section were combined.
 
 
 \subsection{Logistic Regression}
@@ -166,6 +167,7 @@ Now with the trainingsets with undersampled negative instances we still get a sc
 The Commendo team also talks about adding aggregate values to the dataset, where we group on the \verb!prop_id! and  calculate mean, median and standard deviation for each of the numerical attributes they train on. When we add all these aggregate attributes the number of attributes are so high that the system cannot train on it and always give a score equivalent to random.\\
 Instead we added aggregate variables based on only one of the numerical attributes at a time. This also results in scores that don't go above 0.36. We have tried training with undersampling and not undersampling negative instances.
 \section{Final Model and Results}
+\label{sec:final_model}
 For the final approach we ended up combining the training and evaluation code developed for the Commendo team approach with the feature engineering and attribute selection code from the approach based on \cite{DBLP:journals/corr/LiuXZYPLSW13}. With undersampling of negative instances and training two binary gradient boosted classifiers on a 10\% subset with 9\% for training and 1\% for testing we get a score of \textbf{0.409}. This was the model we used to generate our final prediction. While we did not do proper x-fold cross validation, during development we did regenerate the subsets a few times to get a more accurate sense of the score, with the range of scores being roughly 0.40-0.45.\\
 Learning the same model with SGD classifiers gets a score of \textbf{0.369} on the same training and test sets. \\
 We can explore this model a bit beyond the point it was at when we submitted our prediction. If we remove undersampling of negative instances we get a score of \textbf{0.349} using the boosted gradient classifiers and \textbf{0.359} using the SGD classifiers. Clearly the undersampling improves accuracy. It also makes the training time a lot quicker, especially when training on the full trainingset.\\
