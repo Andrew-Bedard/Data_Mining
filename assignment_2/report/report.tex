@@ -150,9 +150,6 @@ Finally, probabilities of hotels being booked or clicked were estimated. These w
 
 As a model RankSVM was trained on the six normalized price features, the estimated probabilities for clicking and booking, the monotonic star-rating and the remaining numerical features that were not engineered. The model was slow in training and didn't perform spectacularly with a score of $0.35$. Instead, the Gradient Boosting Machines were used, which reduced training time considerably, but the score did not improve.\\
 \indent The feature engineering took a long time and the reported scores were obtained from training on all features, which might have been a mistake. The six normalized prices alone were probably correlated, let alone the possibilities of unexpected correlation between the numerical features which was not checked. It would have been wise to check by trial and error which features worked best or to in a systematic way for correlations, but this was not feasible due to time constraints. 
-
-
-\pagebreak
 \subsection{Commendo team approach}
 The highest scoring team in the Kaggle competition was the Commendo team, part of the Opera Solutions company. They however were not granted the first place prize. We speculate that they were unwilling or unable to fully disclose their approach to Kaggle and Expedia because of use of internal tools and code that they wished to remain proprietary\footnote{A Kaggle competition admin states ``The commendo team (Michael Jahrer) achieved the highest score but was not able to fulfil all the contest requirements.'', see \url{https://www.kaggle.com/c/expedia-personalized-sort/forums/t/6203/winning-algorithm/49840#post49840}}. This made replicating their approach challenging, with only a minimal presentation to go by\cite{Jahrer2013}.\\
 The approach talks about training on 19 numerical variables. We have interpreted this as being the following parameters:\\
@@ -166,7 +163,6 @@ One thing we noticed during exploration is that the dataset is very much biased 
 Now with the trainingsets with undersampled negative instances we still get a score of \textbf{0.345} for the SGD classifiers. The gradient boosting classifiers however get a score of \textbf{0.392}. This is not terribly high, but is at least discernibly higher than a random score.\\
 The Commendo team also talks about adding aggregate values to the dataset, where we group on the \verb!prop_id! and  calculate mean, median and standard deviation for each of the numerical attributes they train on. When we add all these aggregate attributes the number of attributes are so high that the system cannot train on it and always give a score equivalent to random.\\
 Instead we added aggregate variables based on only one of the numerical attributes at a time. This also results in scores that don't go above 0.36. We have tried training with undersampling and not undersampling negative instances.
-\pagebreak
 \section{Final Model and Results}
 For the final approach we ended up combining the training and evaluation code developed for the Commendo team approach with the feature engineering and attribute selection code from the approach based on \cite{DBLP:journals/corr/LiuXZYPLSW13}. With undersampling of negative instances and training two binary gradient boosted classifiers on a 10\% subset with 9\% for training and 1\% for testing we get a score of \textbf{0.409}. This was the model we used to generate our final prediction. While we did not do proper x-fold cross validation, during development we did regenerate the subsets a few times to get a more accurate sense of the score, with the range of scores being roughly 0.40-0.45.\\
 Learning the same model with SGD classifiers gets a score of \textbf{0.369} on the same training and test sets. \\
@@ -180,14 +176,8 @@ All our models were based on binary classifiers that predicted clicking or booki
 We have done selection of subsets of the attributes based on data exploration and literature. It would be interesting to look at more systematic approaches of building up minimal subset of attributes that maximize score. Looking at formal dimensional reduction methods may also be useful.\\
 A lot of the most successful approaches were ensemble methods. This motivated the development of multiple independent models, with the goal of blending them together. We however didn't end up with different models that were all equally viable. It would be very interesting to see if with more time we could get all three approaches to be viable by themselves (which we will define very informally as having a score over 0.4) and then blending them to see if that gives a higher score than any of the input models.
 \section{Conclusions}
-<<<<<<< HEAD
-We are kinda ok, not great. Able to make good eval of lit. Importance of replicability.
->>>>>>> 61374ba1cd3a8adcd68007bae7ccfec768d88538
-=======
 We have looked at a dataset of significant size and have been able to successfully explore it and use it for predictions. These predictions compare unfavourably with the top scorers in the Kaggle competition, but is at least noticeably different from pure random predictions. By choosing to structure our approach around explicitly replicating multiple existing approaches we were able to make review of parts the literature specific to this competition. We were not able to compare them in terms of score, but also in terms of replicability, which is one of the cornerstones of the modern scientific method.\\
-While we did not do any formal blending as seen with ensemble methods, by developing multiple models and making the choice of doing this in Python code, we were able succesfully able to pull parts of one model (e.g. attribute selecting and feature generation) and combine it with parts of other models (e.g. data subsampling and training code) and have that combined model outperform the models that provided its parts.
-
->>>>>>> 8e2ca17a1637ab32e429605a2d9185e25d0d2ad7
+While we did not do any formal blending as seen with ensemble methods, by developing multiple models and making the choice of doing this in Python code, we were able successfully able to pull parts of one model (e.g. attribute selecting and feature generation) and combine it with parts of other models (e.g. data subsampling and training code) and have that combined model outperform the models that provided its parts.
 \bibliographystyle{plain}
 \bibliography{report}
 \end{document}
