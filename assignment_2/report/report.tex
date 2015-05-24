@@ -77,7 +77,7 @@ Finally, there are multiple output variables, which can be represented in differ
 	\label{fig:pctM}
 	\end{figure}
 	
-	Further some factors had significant outliers, \verb!'price_usd'! for example. In our training set \verb!'price_usd'! had a minimum of 0 and a maximum of 371493.6. It is impossible to tell exactly how this happened or what these represent, however we concluded it was due to some error and the points were treated as outliers and replaced as is stated below. 
+	Further some factors had significant outliers, \verb!'price_usd'! for example. In our training set \verb!'price_usd'! had a minimum of $0$ and a maximum of $371493.6$. It is impossible to tell exactly how this happened or what these represent, however we concluded it was due to some error and the points were treated as outliers and replaced as is stated below. 
 	
 	One of the salient features of the data processing procedures practised in \cite{DBLP:journals/corr/LiuXZYPLSW13} was their decision to split up features into their respective country id's, thus if they replaced the missing data for hotel star rating, they replaced it by a function of all hotels within the same country. It may make sense that people and businesses have the same behaviour within a specific country, so treating this as a reasonable assumption we also chose to replace missing factors within their country id. Simply applying experimentation we were able to arrive at a formulation for filling in missing or zero values to maximize the NDGC for our final model, they are as follows:
 	\begin{itemize}
@@ -99,7 +99,7 @@ To explore various options we have developed various preliminary models, based o
 This approach was to closely follow the procedure of \cite{DBLP:journals/corr/LiuXZYPLSW13} to create a simple Logistic Regression model, and to test the performance of the composite features outlined in their paper.
 
 To begin, a simple Logistic Regression model was created using all of the supplied features in our 9\% training data after pre processing as outlined in section ~\ref{sec:working_on_data}. This was done by first creating a clicking classifier taking all features of the data into account, with a class weight set to down sample the non-clicking such that the model would not simply predict that no one ever clicks due to the overwhelming large proportion of negative instances of non-clicking or non-booking in any given record. This process was then repeated to create a booking classifier.
-Finally using our two classifiers we tested on our 1\% data set, one at a time to predict booking and clicking. Using this method we achieved a NDCG score of: 0.3531, which is comparable with pure random sorting.
+Finally using our two classifiers we tested on our 1\% data set, one at a time to predict booking and clicking. Using this method we achieved a NDCG score of: \textbf{0.3531}, which is comparable with pure random sorting.
 
 Several composite features were created as outlined in \cite{DBLP:journals/corr/LiuXZYPLSW13}
 \[\textit{ump = exp(prop\_ log\_ historical\_ price) - price\_ usd}\]
@@ -110,9 +110,11 @@ Several composite features were created as outlined in \cite{DBLP:journals/corr/
 \[\textit{total\_ fee = price\_ usd*srch\_ room\_ count}\]
 \[\textit{score1d2} = \frac{\textit{prop\_ location\_ score2} + 0.0001}{\textit{prop\_ location\_ score1} + 0.0001}\]
 
-These newly created features all fall under the top 20 relevant features as calculated by \cite{DBLP:journals/corr/LiuXZYPLSW13}, thus we fellow the procedure as above and create a new model with clicking and booking classifiers, adding in these new features. The resulting NDCG score was: 0.3535, which is a negligible gain over the previous score of 0.3531. We assumed this was due to too many features in the model, so our next test was to remove many of these features to measure any difference in performance. The features selected for inclusion were all of those included in the top 20 relevant features of Table 1 in \cite{DBLP:journals/corr/LiuXZYPLSW13}, that were in the data, or were generated in the previous step. These were:\\ \verb!'prop_location_score2'!, \verb!'ump'!, \verb!'price_diff'!, \verb!'starrating_diff'!, \verb!'score1d2'!, \verb!'random_bool'!, \verb!'per_fee'!, \verb!'price_usd'!, \verb!'prop_review_score'!, \verb!'total_fee'!, \verb!'prop_starrating'!
+These newly created features all fall under the top 20 relevant features as calculated by \cite{DBLP:journals/corr/LiuXZYPLSW13}, thus we fellow the procedure as above and create a new model with clicking and booking classifiers, adding in these new features. The resulting NDCG score was: \textbf{0.3535}, which is a negligible gain over the previous score of 0.3531. We assumed this was due to too many features in the model, so our next test was to remove many of these features to measure any difference in performance.
+
+ The features selected for inclusion were all of those included in the top 20 relevant features of Table 1 in \cite{DBLP:journals/corr/LiuXZYPLSW13}, that were in the data, or were generated in the previous step. These were:\\ \verb!'prop_location_score2'!, \verb!'ump'!, \verb!'price_diff'!, \verb!'starrating_diff'!, \verb!'score1d2'!, \verb!'random_bool'!, \verb!'per_fee'!, \verb!'price_usd'!, \verb!'prop_review_score'!, \verb!'total_fee'!, \verb!'prop_starrating'!
 \\
-After repeating our procedure again for creating a Logistic Regression model, our NDGC score was: 0.3803, so clearly there was a increase in score. To examine the possible reason for this, consider fig:\ref{fig:corr} in which the correlations between data features for our 10\% full set are show by circle size and colour.
+After repeating our procedure again for creating a Logistic Regression model, our NDGC score was: \textbf{0.3803}, so clearly there was a increase in score. To examine the possible reason for this, consider fig:\ref{fig:corr} in which the correlations between data features for our 10\% full set are show by circle size and colour.
 
 	\begin{figure}[H]
 	\centering
