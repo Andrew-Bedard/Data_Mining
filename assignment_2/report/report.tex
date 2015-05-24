@@ -57,7 +57,8 @@ The data taken from Kaggle totals about $10$ million records spanned by $336,334
 
 As an evaluation metric the average NDCG over all queries is used, with $k=38$ as the truncation level. Formally, $\displaystyle DCG_{k}=\sum_{i=1}^{k}\frac{2^{rel_i}-1}{\log_{2}(i+1)}$. Here $rel_{i}$ represent the true score of the hotel ranked in position $i$. Observe that only one score can be $5$: the hotel booked. The further down the summation it is placed the more it is discounted, decreasing the score. Likewise for the hotels that were clicked and it doesn't matter in which order the clicks are placed, as long as they are ranked below the booked hotel and above the hotels booked nor clicked. The ideal ranking then gives the maximal discounted gain, $IDCG_{k}$. Consequently, $NDCG_{k}=\frac{DCG_{k}}{IDCG_{k}}$ 
 
-\subsection{Some challenges and observations}
+
+\section{Working on the data}
 Some reflections on the challenges with the data and problem are in order. First, the size of the dataset is impractical for training purposes and most software might choke on it. An appropriate technique has to be used to sample a representative subset of the data.
 
 What's more, the data is unbalanced: at most one hotel can be booked and only a few get usually clicked, meaning it might be tempting for the algorithm to always predict not booked and not clicked. Depending on the algorithm,this situation can be remedied by down-sampling the negative instances.
@@ -65,7 +66,7 @@ What's more, the data is unbalanced: at most one hotel can be booked and only a 
 The data is raw and not manually checked. So another hassle concerns missing data and outliers, which has to be dealt with when training. 
 
 <<<<<<< HEAD
-	There were a few challenges with working on the data. First was the sheer number of records, thus from the data set approximately 10\% was selected for analysis and training. This was done by first selecting 10\% of the records, then adding further records to ensure we had complete data for each search id, that is, if we selected a record from search id \textit{x}, then all records from search id \textit{x} were added to our data.
+	There were a few challenges with working on the data. First was the sheer number of records, which made direct observation and manipulation very challenging, thus from the data set approximately 10\% was selected for analysis and training. This was done by first selecting 10\% of the records, then adding further records to ensure we had complete data for each search id, that is, if we selected a record from search id \textit{x}, then all records from search id \textit{x} were added to our data.
 
 	The second large challenge was that many of the records were incomplete. Certainly we can see in figure \ref{fig:pctM}, many of the features were missing over 80\% of their values.
 	\begin{figure}[H]
@@ -76,21 +77,22 @@ The data is raw and not manually checked. So another hassle concerns missing dat
 	\label{fig:pctM}
 	\end{figure}
 	
-	Further, there were outliers in some factors, \textit{price\_ usd} for example in our training set had a minimum of 0 and a maximum of 371493.6, it is impossible to tell exactly how this happened or what these represent, however the points were treated as outliers and replaced. Simply applying experimentation we were able to arrive at a formulation for filling in missing or zero values to maximize the NDGC for our final model, they are as follow:
+	Further, there were outliers or errors in some factors, \textit{price\_ usd} for example in our training set had a minimum of 0 and a maximum of 371493.6. It is impossible to tell exactly how this happened or what these represent, however we concluded it was due to some error and the points were treated as outliers and replaced as is stated below. One of the salient features of the data processing procedures practised by !!!!!!!! was their decision to split up features into their respective country id's, thus if they replaced the missing data for hotel star rating, they replaced it by a function of other hotels within the same country. It may make sense that people and businesses have the same behaviour within a specific country, so treating this as a reasonable assumption we also chose to replace missing factors within their country id. Simply applying experimentation we were able to arrive at a formulation for filling in missing or zero values to maximize the NDGC for our final model, they are as follow:
 	\begin{itemize}
-	\item \textit{price\_ usd} outliers, these were replaced with the first quantile value
-	\item missing values in \textit{prop\_ location\_ score2, visitor\_ hist\_ adr\_ usd, visitor\_ hist\_ starrating, prop\_ review\_ score} were replaced with the mean values of each property within their country id. 
-	\item Zero values in \textit{prop\_ starrating, prop\_ review\_ score, prop\_ starrating} were replaced with the third quantile values within their country id.
-	\item Zero values in \textit{prop\_ log\_ historical\_ price} were replaced by first quantile values. Zero values of \textit{srch\_ length\_ of\_ stay} were replaced with mean within country id.
+	\item \textit{price\_ usd} outliers, these were replaced with the first quantile value.
+	\item missing values in \textit{prop\_ location\_ score2, visitor\_ hist\_ adr\_ usd, visitor\_ hist\_ starrating, prop\_ review\_ score} were replaced with the mean value. 
+	\item Zero values in \textit{prop\_ starrating, prop\_ review\_ score, prop\_ starrating} were replaced with their respective third quantile value.
+	\item Zero values in \textit{prop\_ log\_ historical\_ price} were replaced by their first quantile values. 
+	\item Zero values of \textit{srch\_ length\_ of\_ stay} were replaced their mean values.
 	\end{itemize}
-=======
+
 The data is furthermore divided into categorical and numerical variables. The categorical variables are for instance IDs for the search queries, hotels and websites of Expedia.  
 
 Finally, there are multiple output variables, which can be represented in different ways, namely as either a score or classes for clicks and bookings. The fact is also that the NDCG is not a smooth function of the scores, which makes it hard to involve it in an online optimization process.            
 
-\section{Working on the data}
+
 \textit{price\_ usd} had many outliers, these were replaced with the first quantile value, missing values in \textit{prop\_ location\_ score2, visitor\_ hist\_ adr\_ usd, visitor\_ hist\_ starrating, prop\_ review\_ score} were replaced with the mean values of each property within their country id. Zero values in \textit{prop\_ starrating, prop\_ review\_ score, prop\_ starrating} were replaced with the third quantile values within their country id. Zero values in \textit{prop\_ log\_ historical\_ price} were replaced by first quantile values. Zero values of \textit{srch\_ length\_ of\_ stay} were replaced with mean within country id.
->>>>>>> 61374ba1cd3a8adcd68007bae7ccfec768d88538
+
 
 \[\textit{ump = exp(prop\_ log\_ historical\_ price) - price\_ usd}\]
 \[\textit{price\_ diff = visitor\_ hist\_ adr\_ usd - price\_ usd}\]
@@ -163,8 +165,6 @@ Finally, probabilities of hotels being booked or clicked were estimated. These w
 
 As a model RankSVM was trained on the six normalized price features, the estimated probabilities for clicking and booking, the monotonic star-rating and the remaining numerical features that were not engineered. The model was slow in training and didn't perform spectacularly with a score of $0.35$. Instead, the Gradient Boosting Machines were used, which reduced training time considerably, but the score did not improve.\\
 \indent The feature engineering took a long time and the reported scores were obtained from training on all features, which might have been a mistake. The six normalized prices alone were probably correlated, let alone the possibilities of unexpected correlation between the numerical features which was not checked. It would have been wise to check by trial and error which features worked best or to in a systematic way for correlations, but this was not feasible due to time constraints. 
-
-\subsection{Andy}
 
 
 \pagebreak
