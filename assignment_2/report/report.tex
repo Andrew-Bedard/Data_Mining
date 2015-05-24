@@ -113,14 +113,10 @@ Before the log of the price was taken to make its effect on the target variables
 
 Finally, probabilities of hotels being booked or clicked were estimated. These were estimated by the fractions $\displaystyle \frac{\textit{booking(prop\_id)}}{counting(prop\_id)}$ and $\displaystyle \frac{\textit{click(prop\_id)}}{counting(prop\_id)}$ where the the number of times a hotel was booked and clicked, respectively, is divided by the number of times it appeared in the data. Naturally these probabilities cannot be estimated from the test set, but they can be estimated from the training set and then added to the test set.
 
-As a model RankSVM was trained on the six normalized price features, the estimated probabilities for clicking and booking, the monotonic star-rating and the remaining numerical features that were not engineered. The model was slow in training and didn't perform spectacularly with a score of $0.35$. Instead, the Gradient Boosting Machines were used, which reduced training time considerably, but the score did not improve.
+As a model RankSVM was trained on the six normalized price features, the estimated probabilities for clicking and booking, the monotonic star-rating and the remaining numerical features that were not engineered. The model was slow in training and didn't perform spectacularly with a score of $0.35$. Instead, the Gradient Boosting Machines were used, which reduced training time considerably, but the score did not improve.\\
+\indent The feature engineering took a long time and the reported scores were obtained from training on all features, which might have been a mistake. The six normalized prices alone were probably correlated, let alone the possibilities of unexpected correlation between the numerical features which was not checked. It would have been wise to check by trial and error which features worked best or to in a systematic way for correlations, but this was not feasible due to time constraints. 
 
-The feature engineering took a long time and the reported scores were obtained from training on all features, which might have been a mistake. The six normalized prices alone were probably correlated, let alone the possibilities of unexpected correlation between the numerical features which was not checked. It would have been wise to check by trial and error which features worked best or to in a systematic way for correlations, but this was not feasible due to time constraints. 
-
-    
-
-
-\subsection*{Andy}
+\subsection{Andy}
 
 
 \pagebreak
