@@ -27,23 +27,36 @@
 \begin{document}
 \maketitle
 \section{Introduction}
-The online travel agency (OTA) Expedia posed the challenge to rank hotels by their likelihood of being booked. In such a competitive market as the one of click-through purchases, properly ranking offered hotels according to user's preferences becomes indispensable for the OTA to win the sale. See the Kaggle platform \cite{WinNT} for further information on the competition.
+The online travel agency (OTA) Expedia posed the challenge to rank hotels by their likelihood of being booked. In such a competitive market as the one of click-through purchases, properly ranking offered hotels according to user's preferences becomes indispensable for the OTA to win the sale. This requires an algorithm that can rank the hotels associated with a user search query. The use of ranking algorithms in the industry of online travel booking is uncharted territory and the challenge provided opportunities to explore. For further information on the competition see the Kaggle platform \cite{WinNT}.
 
 This report details our approach to tackling this problem based on the search and click-through data provided by Expedia. First, a short review of the available literature on the topic is given. Then a description of the data is provided and the problem is defined in more rigorous terms. This is followed up by a review of the methods and models used by us and how they held up to the challenge. Finally, we finish off with a summary and some concluding remarks.  
 
 \section{Related work}
-The use of ranking algorithms in the industry of online travel booking is relatively new. Here is a sample of the approaches of some of the groups that particaped in the Kaggle challenge.
+Here is a sample of the approaches of some of the groups that participated in the Expedia challenge.
 
-Let's start with the official winner of the competition, whose approach was detailed in a slide set on Kaggle. For the feauture engineering missing values were imputed by negative values, the rationale behind it being that if a value is missing, the worst case can be assumed. Numerical variables were bounded to remove outliers. Negative instances of booking and clicking were downsampled. All original features were used, plus engineered features such as averages of numerical variables, price difference and categorical features converted to numerical ones. As a model an ensemble of Gradient Boosting Machines were used. 
+Let's start with the official winner of the competition, whose approach can be found in \cite{WinNT2}. For the feature engineering missing values were said to be imputed by negative values, which we believe to mean the worst case is assumed. The rationale being customers don't like to book hotels with missing values. Numerical variables were bounded to remove outliers. Negative instances of booking and clicking were down-sampled. All original features were used, plus engineered features such as averages of numerical variables, price difference and categorical features converted to numerical ones. As a model an ensemble of Gradient Boosting Machines was used. 
 
-The official runner-up also did a lot of feature engineering. Missing values were replaced by worst-case scenario, since customers probably don't like to book hotels with missing values. For instance the missing values of competitor where replaced by zero. Furthermore, certain numerical features were normalized with respect to different indicators such as the prop\_id, srch\_id and month. New features were constructed such as the difference between the visitor's starrating and the starrating given to a certain property. This gave a total of 300 features on which the models LambdaMART, SVM Rank and linear regression were used. The final model was LambdaMART.
+The official runner-up also did a lot of feature engineering. Missing values were replaced by worst-case scenarios by the same reasoning as above. For instance the missing values of competitor descriptions where replaced by zero, which means data is not available. Furthermore, certain numerical features were normalized with respect to different indicators such as the prop\_id, srch\_id and month. New features were constructed such as the difference between the visitor's starrating and the starrating given to a certain property. This gave a total of 300 features on which the models LambdaMART, SVM Rank and linear regression were used. The final model used was LambdaMART.
 
-The paper *reference here* detail an approach which meshes together several different ranking models: logistic regression, support vector machines, random forest, gradient boosting machine, factorization machine and LambdaMART, among others. The team identified the most import features as price\_usd, prop\_starrating and prop\_location\_score2. For missing values the first quartile calculated for the prop\_id of the missing data point was used. As their ensemble the team tried different linear combinations and sought the combination that would give a better result than one of the single models could.  
+The paper \cite{DBLP:journals/corr/LiuXZYPLSW13} details an approach which meshes together several different ranking models: logistic regression, support vector machines, random forest, gradient boosting machine, factorization machine and LambdaMART, among others. The team identified the most import features as price\_usd, prop\_starrating and prop\_location\_score2. Data was balanced for training random forest, making it feasible to train with a large number of trees.  For missing values the first quartile calculated for the prop\_id of the missing data point was used. As their ensemble the team tried different linear combinations and sought the combination that would give a better result than a single model could.  
 
  
-\section{Data description}
+\section{Problem formulation and data description}
+Given a search query $x_{i}$ and the hotels $\{h_{1}^{i},\dots,h_{m_{i}}^{i}\}$ associated with it, where $\leq m_{i} \leq 38$(the maximum number of hotels associated with any search query is not more than $38$ and not less than $4$), a ranking algorithm has to estimate the scores  $\{s_{1}^{i},\dots,s_{m_{i}}^{i}\}$ corresponding to these hotel. The scores are assigned as:
+$$
+s_{j}^{i}=
+\left\{
+	\begin{array}{ll}
+		5  & \mbox{if hotel $j$ was booked }   \\
+		1 & \mbox{if hotel $j$ was clicked }  \\
+		0 & \mbox{if hotel $j$ was neither clicked nor booked}
+	\end{array}
+\right.
+$$
+  
+The data taken from Kaggle totals about $10$ million records spanned by $336,334$ search queries, meaning at least $4$ records correspond to one search query and at most $38$. The data is divided in half into a training and test set. Each record in the training data is represented by $54$-dimensional vector, where the two class variables booking and clicking and the variables for purchase amount and position in Expedia's ranked list are not included in the test set. Indeed, in our problem the target variables to be estimated are click\_bool and book\_boolean, based on which the scores for the ranking can be assigned. The remaining $50$ variables are roughly divided into search criteria, hotel characteristics (dynamic/static), history of the user and competitive OTA information. A variable not covered by these categories is whether the search result were presented in random order or based on the ranking algorithm employed by Expedia (in some cases hotels were presented in random order to learn about user preferences).
 
-Salient features of the data, Couple of graphs, percentage of data missing etc...
+As an evaluation metric the average NDCG over all queries is used, with $k=38$ as the truncation level. Formally, $\displaystyle DCG_{k}=\sum_{i=1}^{k}\frac{2^{rel_i}-1}{\log_{2}(i+1)}$. Here $rel_{i}$ represent the true score of the hotel ranked in position $i$. Observe that only one score can be $5$: the hotel booked. The further down the summation it is placed the more it is discounted, decreasing the score. Likewise for the hotels that were clicked and it doesn't matter in which order the clicks are placed, as long as they are ranked below the booked hotel and above the hotels booked nor clicked. The ideal ranking then gives the maximal discounted gain, $IDCG_{k}$. Consequently, $NDCG_{k}=\frac{DCG_{k}}{IDCG_{k}}$         
 
 \section{Working on the data}
 
