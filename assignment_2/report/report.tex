@@ -143,9 +143,9 @@ If we add single numerical attributes without aggregate variables we're actually
 Even taking some variability into account from generating out training subset and undersampling methods, this makes it seem likely that the most na\"ive additions of extra attributes our aggregate values will not likely improve score by a noticeable margin.
 
 \section{Discussion}
-regression model\\
-more systematic checking of small subsets of numerical attributes\\
-actual ensemble
+All our models were based on binary classifiers that predicted clicking or booking and only indirectly predicted the score we're sorting on. This was done because of the speed it can be trained at. Training a regression model that directly predicts the score takes a lot longer, but is conceptually not a lot more complicated. Based on some preliminary testing our code would need minimal adaptation to try this out. This would be an obvious thing to try when we want to further research our developed models.\\
+We have done selection of subsets of the attributes based on data exploration and literature. It would be interesting to look at more systematic approaches of building up minimal subset of attributes that maximize score. Looking at formal dimensional reduction methods may also be useful.\\
+A lot of the most successful approaches were ensemble methods. This motivated the development of multiple independent models, with the goal of blending them together. We however didn't end up with different models that were all equally viable. It would be very interesting to see if with more time we could get all three approaches to be viable by themselves (which we will define very informally as having a score over 0.4) and then blending them to see if that gives a higher score than any of the input models.
 \section{Conclusions}
 We are kinda ok, not great. Able to make good eval of lit. Importance of replicability.
 \bibliographystyle{plain}
