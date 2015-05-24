@@ -72,7 +72,7 @@ Finally, there are multiple output variables, which can be represented in differ
 
 	Another large challenge was that many of the records were incomplete. Certainly we can see in figure~\ref{fig:pctM}, many of the features were missing over 80\% of their values, such as \verb!'comp1_rate_percent_diff'!, and indeed a number of these features with a vast majority of missing values were absent from the models explored below due to difficulty applying them.
 	
-	\begin{figure}[H]
+    \begin{figure}
 	\centering
 	\textbf{Percentage of missing data}\par\medskip
 		\includegraphics[scale=0.4]{figures/pct_missing.png}
@@ -118,7 +118,7 @@ These newly created features all fall under the top 20 relevant features as calc
 \\
 After repeating our procedure again for creating a Logistic Regression model, our NDGC score was: \textbf{0.3803}, so clearly there was a increase in score. To examine the possible reason for this, consider figure~\ref{fig:corr} in which the correlations between data features for our 10\% full set are show by circle size and colour.
 
-	\begin{figure}[H]
+	\begin{figure}
 	\centering
 	\textbf{Correlations}\par\medskip
 		\includegraphics[scale=0.3]{figures/corr_plot.png}
@@ -140,7 +140,7 @@ Let's start with an obviously important variable, the price of the hotels and ta
 A central argument in the feature engineering of the runner-up was creating variables with monotonic utility with respect to the target variables, in particular a variable that is non-increasing with respect to clicks and bookings. So as the variable increases the number of hotels clicked/booked for that variable decreases. This property comes in handy for ranking with SVM because the larger a variable for a certain hotel, the less likely that hotel is to be booked or clicked. So when training the ranking algorithm, there is a way to separate hotels that are likely to be booked from those that are not because of variables with monotonic utility.
 
 For instance, the variable representing the star rating of the hotels does not have this monotonic utility property, as can be seen in the figure~\ref{subfig:normal_starrate}.
-\begin{figure}[H]
+\begin{figure}
     \centering
     \begin{subfigure}{.5\textwidth}
         \includegraphics[width=1.0\linewidth]{figure_normal_starrate.png}
