@@ -103,7 +103,7 @@ To explore various options we have developed various preliminary models, based o
 
 This approach was to closely follow the procedure of \cite{DBLP:journals/corr/LiuXZYPLSW13} to create a simple Logistic Regression model, and to test the performance of the composite features outlined in their paper.
 
-To begin, a simple Logistic Regression model was created using all of the supplied features in our 9\% training data. This was done by first creating a clicking classifier taking all features of the data into account, with a class weight set to down sample the non-clicking such that the model would not simply predict that no one ever clicks. This process was then repeated to create a booking classifier.
+To begin, a simple Logistic Regression model was created using all of the supplied features in our 9\% training data after pre processing as outlined in section ~\ref{sec:working_on_data}. This was done by first creating a clicking classifier taking all features of the data into account, with a class weight set to down sample the non-clicking such that the model would not simply predict that no one ever clicks due to the overwhelming large proportion of negative instances of non-clicking or non-booking in any given record. This process was then repeated to create a booking classifier.
 Finally using our two classifiers we tested on our 1\% data set, one at a time to predict booking and clicking. Using this method we achieved a NDCG score of: 0.3531, which is comparable with pure random sorting.
 
 Several composite features were created as outlined in \cite{DBLP:journals/corr/LiuXZYPLSW13}
